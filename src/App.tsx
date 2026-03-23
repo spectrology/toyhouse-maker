@@ -36,6 +36,10 @@ function App() {
   const [sidebarOpen, setSidebarOpen] = React.useState(true);
   const [tab, setTab] = React.useState(0);
 
+  useEffect(() => {
+    document.title = "Spec's Toyhouse Maker";
+  }, [])
+
   return (
     <div className="App">
       <meta name="title" content="Spec's Toyhouse Maker" />

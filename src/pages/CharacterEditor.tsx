@@ -12,7 +12,7 @@ const fields: FieldConfig[] = [
     { name: "height", label: "Height", type: "text", xs: 6, isCustom: false },
     { name: "pronouns", label: "Pronouns", type: "text", xs: 6, placeholder: "e.g. she/her", isCustom: false },
     { name: "occupation", label: "Occupation", type: "text", xs: 6, isCustom: false },
-    { name: "blood", label: "Blood", type: "color", xs: 12, isCustom: false },
+    { name: "color", label: "Associated Color", type: "color", xs: 12, isCustom: false },
     { name: "bio", label: "About", type: "multiline", xs: 12, rows: 4, isCustom: false },
 ];
 

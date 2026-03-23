@@ -9,6 +9,7 @@ export const THEMES: Theme[] = [
             { name: "tagline", label: "Tagline", type: "text", fromTheme: true },
             { name: "orientation", label: "Orientation", type: "text", fromTheme: true },
             { name: "location", label: "Location", type: "text", fromTheme: true },
+            { name: "caste", label: "Caste", type: "text", fromTheme: true },
             { name: "lusus", label: "Lusus", type: "text", fromTheme: true },
             { name: "sidebarImageUrl", label: "Sidebar Image URL", type: "text", fromTheme: true },
             { name: "backgroundImageUrl", label: "Background Image URL", type: "text", fromTheme: true }
@@ -109,7 +110,7 @@ export const THEMES: Theme[] = [
                                             <b><em>caste</em></b>
                                         </div>
                                         <div class="col col-9 text-right">
-                                            {{blood}}
+                                            {{caste}}
                                         </div>
                                     </div>
                                     <!-- Info Line End -->
