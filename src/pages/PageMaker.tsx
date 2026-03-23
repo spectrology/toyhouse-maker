@@ -8,10 +8,14 @@ import {
     MenuItem,
     Typography,
     Paper,
+    Button,
+    Menu,
 } from "@mui/material";
 import { Character } from "../types/character";
 import { useCharacterContext } from "../contexts/CharacterContext";
 import { THEMES } from "../themes/themes";
+import { toyhousecss } from "./toyhousecss/toyhouse1";
+import { useThemeContext } from "../contexts/ThemeContext";
 
 function compileTemplate(tpl: string, data: Character) {
     // Replace {{key}} with value (naive). Supports nested keys like a.b
@@ -21,13 +25,11 @@ function compileTemplate(tpl: string, data: Character) {
     });
 }
 
-export default function PageMaker({ initialCharacter }: { initialCharacter?: Character }) {
-    const [selectedThemeId, setSelectedThemeId] = useState<string>(THEMES[0].id);
-    const [error, setError] = useState<string | null>(null);
+export const PageMaker: React.FC = () => {
+    
+    const { theme } = useThemeContext();
 
-    const theme = THEMES.find((t) => t.id === selectedThemeId) ?? THEMES[0];
-
-    const { selectedId, setCharacter, characters } = useCharacterContext();
+    const { selectedId, characters } = useCharacterContext();
     const [characterData, setCharacterData] = useState<Character>(characters[0] || new Character("fake"));
 
     useEffect(() => {
@@ -39,48 +41,48 @@ export default function PageMaker({ initialCharacter }: { initialCharacter?: Cha
     const htmlPreview = useMemo(() => {
         if (!characterData) return "<div style='color:#c00'>Invalid JSON</div>";
         const body = compileTemplate(theme.template, characterData);
-        return `<link href="https://toyhou.se/css/main.css?cachebust=1774093547" rel="stylesheet">
-                <link href="https://toyhou.se/css/site_bootstrap.css?cachebust=1774093547" rel="stylesheet">
-                    ${body}`;
+        return `
+            <style>
+                ${toyhousecss}
+            </style>
+                ${body}
+        `;
     }, [theme, characterData]);
 
     return (
-        <Box>
-            {/* Theme Selector: */}
-            <Box>
-                <Typography variant="subtitle2">Theme</Typography>
-                <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-                    <FormControl sx={{ mt: 1 }} fullWidth>
-                        <InputLabel id="theme-select-label">Theme</InputLabel>
-                        <Select
-                            labelId="theme-select-label"
-                            value={selectedThemeId}
-                            label="Theme"
-                            onChange={(e) => setSelectedThemeId(String(e.target.value))}
-                            size="small"
-                        >
-                            {THEMES.map((t) => (
-                                <MenuItem key={t.id} value={t.id}>
-                                    {t.name}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
+        <Box display="flex" flexDirection="column" gap={2} overflow="hidden" p={3}>
+            {/* HTML Preview: */}
+            <Box height="calc(100vh - 280px)" sx={{ flex: 1, display: "flex", flexDirection: "column"}}>
+                <Box display="flex" alignItems="center" justifyContent="space-between" mb={2}>
+                    <Typography variant="h5">HTML Preview</Typography>
+                    <Box display="flex" gap={1}>
+                        <Button variant="contained" onClick={(e) => {
+                            e.preventDefault();
+                            window.open("data:text/html;charset=utf-8," + encodeURIComponent(htmlPreview), "_blank"); return false;
+                        }}>
+                            Pop-Out
+                        </Button>
+                        <Button variant="outlined" onClick={() => {
+                            navigator.clipboard.writeText(compileTemplate(theme.template, characterData)).then(() => {
+                                alert("HTML copied to clipboard!");
+                            })
+                        }}>
+                            Copy HTML to Clipboard
+                        </Button>
+                    </Box>
                 </Box>
-            </Box>
-
-            <Box sx={{ flex: 1, display: "flex", flexDirection: "column", gap: 1 }}>
-                <Typography variant="subtitle2">HTML Preview</Typography>
-                <Paper
-                    variant="outlined"
-                    sx={{ flex: 1, borderRadius: 1, p: 1, bgcolor: "background.paper", overflow: "auto" }}
+                <Box
+                    border={1}
+                    borderColor="divider"
                 >
                     <div
                         // intentionally using innerHTML to render templates; keep content from local JSON only
                         dangerouslySetInnerHTML={{ __html: htmlPreview }}
                     />
-                </Paper>
+                </Box>
             </Box>
-        </Box>
+        </Box >
     );
 }
+
+export default PageMaker;

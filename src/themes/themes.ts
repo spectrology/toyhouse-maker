@@ -4,6 +4,7 @@ export const THEMES: Theme[] = [
     {
         id: "daspec",
         name: "Spec Classic",
+        previewImage: "https://hips.hearstapps.com/hmg-prod/images/gettyimages-1136021131.jpg",
         additionalFields: [
             { name: "tagline", label: "Tagline", type: "text", fromTheme: true },
             { name: "orientation", label: "Orientation", type: "text", fromTheme: true },

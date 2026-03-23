@@ -3,6 +3,7 @@ export type Theme = {
     name: string;
     template: string; // HTML string with {{placeholders}}
     additionalFields?: FieldConfig[]; // List of additional field names to show in the editor
+    previewImage?: string; // Optional image URL for theme preview (not implemented yet)
 };
 
 export type FieldConfig = {

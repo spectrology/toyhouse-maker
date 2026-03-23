@@ -18,6 +18,15 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     const setTheme = (themeId: string) => {
         const found = THEMES.find((t) => t.id === themeId);
         if (found) setThemeData(found);
+        else if (themeId === "custom") {
+            const customTheme: Theme = {
+                id: "custom",
+                name: "Custom Theme",
+                template: "<div>{{name}}</div>",
+                additionalFields: [],
+            };
+            setThemeData(customTheme);
+        }
     }
 
     return (

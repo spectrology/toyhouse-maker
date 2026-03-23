@@ -2,18 +2,14 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import CharacterEditor from './pages/CharacterEditor';
-import { Box, Grid, Tab, Tabs } from '@mui/material';
+import { Box, Container, Grid, Tab, Tabs } from '@mui/material';
 import PageMaker from './pages/PageMaker';
 import Sidebar from './layout/Sidebar';
 import CharacterContext, { CharacterProvider } from './contexts/CharacterContext';
 import { ThemeProvider } from './contexts/ThemeContext';
+import Header from './layout/Header';
 
-function a11yProps(index: number) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  };
-}
+
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -25,49 +21,38 @@ function CustomTabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
 
   return (
-    <div
+    <Box
       role="tabpanel"
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
-    </div>
+      {value === index && <Box>{children}</Box>}
+    </Box>
   );
 }
 
 function App() {
 
+  const [sidebarOpen, setSidebarOpen] = React.useState(true);
   const [tab, setTab] = React.useState(0);
-
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setTab(newValue);
-  };
 
   return (
     <div className="App">
       <ThemeProvider>
         <CharacterProvider>
-          <Grid container minHeight="100vh">
-            <Grid size={3}>
-              <Sidebar />
-            </Grid>
-            <Grid size={9}>
-              <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                <Tabs value={tab} onChange={handleChange} aria-label="basic tabs example">
-                  <Tab label="Character Editor" {...a11yProps(0)} />
-                  <Tab label="Page Maker" {...a11yProps(1)} />
-                </Tabs>
-              </Box>
-              <CustomTabPanel value={tab} index={0}>
-                <CharacterEditor />
-              </CustomTabPanel>
-              <CustomTabPanel value={tab} index={1}>
-                <PageMaker />
-              </CustomTabPanel>
-            </Grid>
-          </Grid>
+          <Sidebar open={sidebarOpen} toggleDrawer={() => setSidebarOpen(!sidebarOpen)} />
+          <Box width={sidebarOpen ? "calc(100% - 250px)" : "100%"} ml={sidebarOpen ? "250px" : 0}
+          >
+            <Header currentTab={tab} setCurrentTab={setTab} />
+            <CustomTabPanel value={tab} index={0}>
+              <CharacterEditor />
+            </CustomTabPanel>
+            <CustomTabPanel value={tab} index={1}>
+              <PageMaker />
+            </CustomTabPanel>
+          </Box>
         </CharacterProvider>
       </ThemeProvider>
     </div>

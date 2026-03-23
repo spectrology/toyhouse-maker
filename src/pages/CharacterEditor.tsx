@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, TextField, Button, Container, Grid, FormControl, InputLabel, Select, MenuItem, Typography } from "@mui/material";
+import { Box, TextField, Button, Container, Grid, FormControl, InputLabel, Select, MenuItem, Typography, Divider } from "@mui/material";
 import { Character } from "../types/character";
 import { useCharacterContext } from "../contexts/CharacterContext";
 import { useThemeContext } from "../contexts/ThemeContext";
@@ -42,7 +42,7 @@ const CharacterEditor: React.FC = () => {
     const handleSave = () => {
         console.log("Saved character:", characterData);
         setCharacter(selectedId!, characterData);
-        alert("Character saved (see console)");
+        alert("Character saved.");
     };
 
     const addAdditionalField = (name: string) => {
@@ -57,11 +57,16 @@ const CharacterEditor: React.FC = () => {
     };
 
     return (
-        <Container sx={{ py: 3 }}>
+        <Container maxWidth="md">
+
             {characterData &&
-                <Box sx={{ display: "flex", gap: 3 }}>
-                    <Box component="form" onSubmit={(e) => { e.preventDefault(); handleSave(); }} sx={{ flex: 1, maxWidth: 720 }}>
-                        <Grid container spacing={2}>
+                <Box sx={{ display: "flex" }} p={3}>
+                    <Box component="form" onSubmit={(e) => { e.preventDefault(); handleSave(); }}>
+                        <Box display="flex" alignItems="right" justifyContent="right" gap={1}>
+                            <Button type="submit" variant="contained">Save</Button>
+                            <Button type="button" disabled color="warning" variant="contained">Delete</Button>
+                        </Box>
+                        <Grid container columnSpacing={1} mb={1}>
                             {[...fields, ...additionalFields, ...(theme.additionalFields || [])].map((f) => {
                                 const val = (characterData as any)[f.name];
                                 const valueProp = f.type === "color" ? (val || "#f7f7f7") : (val ?? "");
@@ -123,6 +128,7 @@ const CharacterEditor: React.FC = () => {
                                 );
                             })}
                         </Grid>
+                        <Divider />
                         <Box display="flex" alignItems="center" mt={2}>
                             {/* Add Additional Field */}
                             <TextField
@@ -143,7 +149,6 @@ const CharacterEditor: React.FC = () => {
                                 Field with this name already exists.
                             </Typography>
                         )}
-                        <Button type="submit" variant="contained" sx={{ mt: 2 }}>Save</Button>
                     </Box>
                 </Box>
             }

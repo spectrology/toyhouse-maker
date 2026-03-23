@@ -10,24 +10,37 @@ import {
     Button,
     Stack,
     Divider,
+    Drawer,
+    FormControl,
+    InputLabel,
+    Select,
+    useTheme,
+    MenuItem,
 } from "@mui/material";
 import { useCharacterContext } from "../contexts/CharacterContext";
 import { Character } from "../types/character";
 import { useThemeContext } from "../contexts/ThemeContext";
+import { THEMES } from "../themes/themes";
+import { Theme } from "../types/theme";
 
 function makeId() {
     return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 9)}`;
 }
 
-const Sidebar: React.FC = () => {
+interface SidebarProps {
+    open: boolean;
+    toggleDrawer: () => void;
+}
+
+const Sidebar: React.FC<SidebarProps> = ({ open, toggleDrawer }: SidebarProps) => {
     const { characters, addCharacter, addCharacters, selectedId, setSelectedId } = useCharacterContext();
-    const { theme } = useThemeContext();
+    const { theme, setTheme } = useThemeContext();
 
     const fileInputRef = useRef<HTMLInputElement | null>(null);
 
     const handleAddCharacter = () => {
         const id = makeId();
-        addCharacter(new Character(id, `New Character ${characters.length + 1}`, undefined, undefined, undefined, undefined, undefined, "", new Date().toISOString()));
+        addCharacter(new Character(id, `New Character ${characters.length + 1}`, undefined, undefined, undefined, undefined, undefined, "", "", new Date().toISOString()));
         setSelectedId(id);
     };
 
@@ -76,17 +89,55 @@ const Sidebar: React.FC = () => {
     };
 
     return (
-        <Box sx={{ height: "100%", display: "flex", flexDirection: "column", borderRight: "1px solid", borderColor: "divider", bgcolor: "background.paper" }}>
-            <Box sx={{ height: "48px", borderBottom: 1, borderColor: "divider", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
-                    Spec's Select
+        <Drawer variant="permanent" open={open} onClose={toggleDrawer}>
+            <Box borderBottom={1} borderColor="divider" p={1}>
+                <Typography variant="h6">
+                    Spec's Toyhouse Maker
                 </Typography>
             </Box>
+            {/* Theme Selector: */}
             <Box borderBottom={1} borderColor="divider" p={1}>
-                Selected Theme: {theme.name}
+                <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+                    <FormControl sx={{ mt: 1 }} fullWidth>
+                        <InputLabel id="theme-select-label">Theme</InputLabel>
+                        <Select
+                            labelId="theme-select-label"
+                            value={theme.id}
+                            label="Theme"
+                            onChange={(e) => { setTheme(e.target.value) }}
+                            size="small"
+                        >
+                            {THEMES.map((t) => (
+                                <MenuItem key={t.id} value={t.id}>
+                                    <Box display="flex" alignItems="center" flexDirection="column" gap={1}>
+                                        {t.previewImage && (
+                                            <img src={t.previewImage} alt={t.name} style={{ width: 160, height: 100, objectFit: "cover" }} />
+                                        )}
+                                        <Box display="flex" alignItems="center" justifyContent="center">
+                                            <Typography variant="h6">{t.name}</Typography>
+                                        </Box>
+                                    </Box>
+                                </MenuItem>
+                            ))}
+                            <MenuItem key="custom" value={"custom"}>
+                                <Box display="flex" alignItems="center" flexDirection="column" gap={1}>
+                                    <Box width={160} height={100} bgcolor="grey.300" display="flex" alignItems="center" justifyContent="center">
+                                        <Typography variant="h3" color="text.secondary">
+                                            {`</>`}
+                                        </Typography>
+                                    </Box>
+                                    <Box display="flex" alignItems="center" justifyContent="center">
+                                        <Typography variant="h6">Custom</Typography>
+                                    </Box>
+                                </Box>
+                            </MenuItem>
+                        </Select>
+                    </FormControl>
+                </Box>
             </Box>
 
-            <Box sx={{ flex: 1, overflow: "auto", p: 1 }}>
+            {/* Character Selector */}
+            <Box sx={{ flex: 1, overflow: "auto", p: 1, width: "250px" }}>
                 <List>
                     {characters.map((ch) => (
                         <ListItemButton key={ch.id} selected={ch.id === selectedId} onClick={() => setSelectedId(ch.id)} sx={{ borderRadius: 1, mb: 1 }}>
@@ -98,18 +149,15 @@ const Sidebar: React.FC = () => {
                     ))}
                 </List>
             </Box>
-
-            <Divider />
-
-            <Box sx={{ position: "sticky", bottom: 0, p: 1, bgcolor: "background.paper" }}>
+            <Box sx={{ position: "sticky", bottom: 0, p: 1, borderTop: 1, borderColor: "divider", bgcolor: "background.paper" }}>
                 <Stack direction="row" spacing={1}>
-                    <Button fullWidth variant="outlined" onClick={handleAddCharacter} aria-label="Add another character">+ Add</Button>
-                    <Button fullWidth variant="outlined" onClick={triggerImport}>Import</Button>
-                    <Button fullWidth variant="outlined" onClick={exportData}>Export</Button>
+                    <Button fullWidth size="small" variant="outlined" onClick={handleAddCharacter} aria-label="Add another character">+ Add</Button>
+                    <Button fullWidth size="small" variant="outlined" onClick={triggerImport}>Import</Button>
+                    <Button fullWidth size="small" variant="outlined" onClick={exportData}>Export</Button>
                 </Stack>
                 <input ref={fileInputRef} type="file" accept="application/json" style={{ display: "none" }} onChange={onFileChange} />
             </Box>
-        </Box>
+        </Drawer>
     );
 }
 
