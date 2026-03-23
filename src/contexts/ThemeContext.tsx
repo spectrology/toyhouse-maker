@@ -27,20 +27,22 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     const onFileChange: React.ChangeEventHandler<HTMLInputElement> = async (e) => {
         const file = e.target.files?.[0];
         if (!file) return;
+        const text = await file.text();
         try {
-            const text = await file.text();
             const parsed = JSON.parse(text);
             // Basic validation
             if (typeof parsed.name === "string" && typeof parsed.template === "string") {
                 setThemeData(parsed);
             } else {
-                setThemeData({
-                    id: "custom",
-                    name: "Custom Theme",
-                    template: text,
-                });
-            }
 
+            }
+        }
+        catch (e) {
+            setThemeData({
+                id: "custom",
+                name: "Custom Theme",
+                template: text,
+            });
         } finally {
             if (fileInputRef.current) fileInputRef.current.value = "";
         }
@@ -48,7 +50,7 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 
     return (
         <ThemeContext.Provider value={{ theme, setTheme }}>
-            <input ref={fileInputRef} type="file" accept="application/json" style={{ display: "none" }} onChange={onFileChange} />
+            <input ref={fileInputRef} type="file" accept="application/json, text/html, .html" style={{ display: "none" }} onChange={onFileChange} />
             {children}
         </ThemeContext.Provider>
     );
