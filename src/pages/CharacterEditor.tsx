@@ -18,15 +18,17 @@ const fields: FieldConfig[] = [
 
 const CharacterEditor: React.FC = () => {
 
-    const { selectedId, setCharacter, characters } = useCharacterContext();
+    const { selectedId, setCharacter, characters, deleteCharacter } = useCharacterContext();
     const { theme } = useThemeContext();
-    const [characterData, setCharacterData] = useState<Character>(characters[0]);
+    const [characterData, setCharacterData] = useState<Character | null>(characters[0]);
     const [additionalFields, setAdditionalFields] = useState<FieldConfig[]>([]);
     const [nextAdditionalFieldName, setNextAdditionalFieldName] = useState<string>("");
 
     useEffect(() => {
         if (selectedId) {
             setCharacterData(characters.find((c) => c.id === selectedId) || characters[0]);
+        } else {
+            setCharacterData(null);
         }
     }, [selectedId])
 
@@ -34,15 +36,17 @@ const CharacterEditor: React.FC = () => {
         const { name, value } = e.target as HTMLInputElement;
         const cfg = fields.find((f) => f.name === name) || additionalFields.find((f) => f.name === name) || theme?.additionalFields?.find((f) => f.name === name);
         setCharacterData((prev) => ({
-            ...prev,
+            ...(prev || new Character("fake")),
             [name]: cfg?.type === "number" ? (value === "" ? undefined : Number(value)) : value
         }));
     };
 
     const handleSave = () => {
-        console.log("Saved character:", characterData);
-        setCharacter(selectedId!, characterData);
-        alert("Character saved.");
+        if (characterData) {
+            console.log("Saved character:", characterData);
+            setCharacter(selectedId!, characterData);
+            alert("Character saved.");
+        }
     };
 
     const addAdditionalField = (name: string) => {
@@ -64,7 +68,7 @@ const CharacterEditor: React.FC = () => {
                     <Box component="form" onSubmit={(e) => { e.preventDefault(); handleSave(); }}>
                         <Box display="flex" alignItems="right" justifyContent="right" gap={1}>
                             <Button type="submit" variant="contained">Save</Button>
-                            <Button type="button" disabled color="warning" variant="contained">Delete</Button>
+                            <Button type="button" onClick={() => deleteCharacter(selectedId!)} color="warning" variant="contained">Delete</Button>
                         </Box>
                         <Grid container columnSpacing={1} mb={1}>
                             {[...fields, ...additionalFields, ...(theme.additionalFields || [])].map((f) => {
@@ -153,9 +157,11 @@ const CharacterEditor: React.FC = () => {
                 </Box>
             }
             {!characterData && (
-                <Typography variant="h6" color="textSecondary">
-                    No character selected.
-                </Typography>
+                <Box pt={4}>
+                    <Typography variant="h6" color="textSecondary">
+                        No character selected.
+                    </Typography>
+                </Box>
             )}
         </Container>
     );

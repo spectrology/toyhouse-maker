@@ -32,6 +32,15 @@ function generateId() {
 export const CharacterProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [characters, setCharacters] = useState<Character[]>([]);
     const [selectedId, setSelectedId] = useState<string | null>(null);
+    const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
+
+    useEffect(() => {
+        if (selectedId) {
+            setSelectedCharacter(characters.find((c) => c.id === selectedId) || null);          
+        } else {
+            setSelectedCharacter(null);
+        }
+    }, [selectedId, characters]);
 
     const ensureId = (c: NewCharacter): Character => ({
         ...(c as Omit<Character, "id">),
@@ -57,11 +66,11 @@ export const CharacterProvider: React.FC<{ children: ReactNode }> = ({ children 
     };
 
     const deleteCharacter = (id: string) => {
+        const currIndex = characters.findIndex((c) => c.id === id)
+        const indexToSelect = characters[currIndex - 1] ? currIndex - 1 : (characters[currIndex + 1] ? currIndex + 1 : -1);
         setCharacters((prev) => prev.filter((c) => c.id !== id));
-        if (selectedId === id) setSelectedId(null);
+        if (selectedId === id) setSelectedId(indexToSelect >= 0 ? characters[indexToSelect].id : null);
     };
-
-    const selectedCharacter = characters.find((c) => c.id === selectedId) ?? null;
 
     return (
         <CharacterContext.Provider value={{ characters, addCharacter, addCharacters, deleteCharacter, setCharacter, selectedId, setSelectedId, selectedCharacter }}>

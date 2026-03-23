@@ -10,10 +10,11 @@ export const THEMES: Theme[] = [
             { name: "orientation", label: "Orientation", type: "text", fromTheme: true },
             { name: "location", label: "Location", type: "text", fromTheme: true },
             { name: "lusus", label: "Lusus", type: "text", fromTheme: true },
-            { name: "sidebarImageUrl", label: "Sidebar Image URL", type: "text", fromTheme: true }
+            { name: "sidebarImageUrl", label: "Sidebar Image URL", type: "text", fromTheme: true },
+            { name: "backgroundImageUrl", label: "Background Image URL", type: "text", fromTheme: true }
         ],
         template: `
-            <div>
+            <div style="background-image: url('{{backgroundImageUrl}}'); background-size: cover; background-position: center">
                 <div class="container">
                     <div class="row">
                         <!-- Sidebar -->
