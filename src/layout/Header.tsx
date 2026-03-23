@@ -3,19 +3,17 @@ import {
     Tabs,
     Tab,
     Toolbar,
-    AppBar,
-    Typography,
-    Grid,
     Box,
+    Button,
 } from "@mui/material";
-
-function makeId() {
-    return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 9)}`;
-}
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import LightModeIcon from '@mui/icons-material/LightMode';
 
 interface HeaderProps {
     currentTab: number;
     setCurrentTab: (tab: number) => void;
+    currentTheme: any;
+    setCurrentTheme: (themeType: string) => void;
 }
 
 function a11yProps(index: number) {
@@ -25,7 +23,7 @@ function a11yProps(index: number) {
     };
 }
 
-const Header: React.FC<HeaderProps> = ({ currentTab, setCurrentTab }: HeaderProps) => {
+const Header: React.FC<HeaderProps> = ({ currentTab, setCurrentTab, setCurrentTheme, currentTheme }: HeaderProps) => {
 
     const handleChange = (event: React.SyntheticEvent, tabIndex: number) => {
         setCurrentTab(tabIndex);
@@ -42,6 +40,8 @@ const Header: React.FC<HeaderProps> = ({ currentTab, setCurrentTab }: HeaderProp
             zIndex: 1200,
             sticky: "top",
             top: 0,
+            display: "flex",
+            justifyContent: "space-between",
         }}>
             <Box px={2}>
                 <Tabs value={currentTab} onChange={handleChange} aria-label="basic tabs example">
@@ -49,6 +49,11 @@ const Header: React.FC<HeaderProps> = ({ currentTab, setCurrentTab }: HeaderProp
                     <Tab label="Page Maker" {...a11yProps(1)} />
                     <Tab label="Documentation" {...a11yProps(2)} />
                 </Tabs>
+            </Box>
+            <Box>
+                <Button onClick={() => setCurrentTheme(currentTheme.palette.mode === "light" ? "dark" : "light")}>
+                    {currentTheme.palette.mode === "light" ? <DarkModeIcon /> : <LightModeIcon />}
+                </Button>
             </Box>
         </Toolbar >
     );

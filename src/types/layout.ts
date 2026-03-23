@@ -1,4 +1,4 @@
-export type Theme = {
+export type Layout = {
     id: string;
     name: string;
     template: string; // HTML string with {{placeholders}}

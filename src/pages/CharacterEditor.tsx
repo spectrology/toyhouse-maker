@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Box, TextField, Button, Container, Grid, FormControl, InputLabel, Select, MenuItem, Typography, Divider } from "@mui/material";
 import { Character } from "../types/character";
 import { useCharacterContext } from "../contexts/CharacterContext";
-import { useThemeContext } from "../contexts/ThemeContext";
-import { FieldConfig } from "../types/theme";
+import { useLayoutContext } from "../contexts/LayoutContext";
+import { FieldConfig } from "../types/layout";
 
 const fields: FieldConfig[] = [
     { name: "name", label: "Name", type: "text", xs: 12, isCustom: false },
@@ -19,13 +19,13 @@ const fields: FieldConfig[] = [
 const CharacterEditor: React.FC = () => {
 
     const { selectedId, setCharacter, characters, deleteCharacter } = useCharacterContext();
-    const { theme } = useThemeContext();
+    const { theme } = useLayoutContext();
     const [characterData, setCharacterData] = useState<Character | null>(characters[0]);
     const [additionalFields, setAdditionalFields] = useState<FieldConfig[]>([]);
     const [nextAdditionalFieldName, setNextAdditionalFieldName] = useState<string>("");
 
     useEffect(() => {
-        if (selectedId) {
+        if (selectedId && selectedId !== characterData?.id) {
             setCharacterData(characters.find((c) => c.id === selectedId) || characters[0]);
         } else {
             setCharacterData(null);
@@ -68,7 +68,7 @@ const CharacterEditor: React.FC = () => {
                     <Box component="form" onSubmit={(e) => { e.preventDefault(); handleSave(); }}>
                         <Box display="flex" alignItems="right" justifyContent="right" gap={1}>
                             <Button type="submit" variant="contained">Save</Button>
-                            <Button type="button" onClick={() => deleteCharacter(selectedId!)} color="warning" variant="contained">Delete</Button>
+                            <Button type="button" onClick={() => deleteCharacter(selectedId!)} color="error" variant="contained">Delete</Button>
                         </Box>
                         <Grid container columnSpacing={1} mb={1}>
                             {[...fields, ...additionalFields, ...(theme.additionalFields || [])].map((f) => {

@@ -1,23 +1,23 @@
 import React, { createContext, useContext, useState, ReactNode, useRef } from "react";
-import { Theme } from "../types/theme";
-import { THEMES } from "../themes/themes";
+import { Layout } from "../types/layout";
+import { LAYOUTS } from "../layouts/layouts";
 
-type ThemeContextValue = {
-    theme: Theme;
+type LayoutContextValue = {
+    theme: Layout;
     setTheme: (themeId: string) => void;
 };
 
-const ThemeContext = createContext<ThemeContextValue>({
-    theme: THEMES[0], // Set a default theme,
+const LayoutContext = createContext<LayoutContextValue>({
+    theme: LAYOUTS[0], // Set a default theme,
     setTheme: () => { }, // Placeholder, will be overridden in provider
 });
 
-export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    const [theme, setThemeData] = useState<Theme>(THEMES[0]);
+export const LayoutProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+    const [theme, setThemeData] = useState<Layout>(LAYOUTS[0]);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
 
     const setTheme = (themeId: string) => {
-        const found = THEMES.find((t) => t.id === themeId);
+        const found = LAYOUTS.find((t) => t.id === themeId);
         if (found) setThemeData(found);
         else if (themeId === "custom") {
             fileInputRef.current?.click();
@@ -49,13 +49,13 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     };
 
     return (
-        <ThemeContext.Provider value={{ theme, setTheme }}>
+        <LayoutContext.Provider value={{ theme, setTheme }}>
             <input ref={fileInputRef} type="file" accept="application/json, text/html, .html" style={{ display: "none" }} onChange={onFileChange} />
             {children}
-        </ThemeContext.Provider>
+        </LayoutContext.Provider>
     );
 };
 
-export const useThemeContext = () => useContext(ThemeContext);
+export const useLayoutContext = () => useContext(LayoutContext);
 
-export default ThemeContext;
+export default LayoutContext;

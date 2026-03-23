@@ -1,6 +1,6 @@
-import { Theme } from "../types/theme";
+import { Layout } from "../types/layout";
 
-export const THEMES: Theme[] = [
+export const LAYOUTS: Layout[] = [
     {
         id: "daspec",
         name: "Spec Classic",

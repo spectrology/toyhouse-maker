@@ -6,9 +6,8 @@ import {
 } from "@mui/material";
 import { Character } from "../types/character";
 import { useCharacterContext } from "../contexts/CharacterContext";
-import { THEMES } from "../themes/themes";
 import { toyhousecss } from "./toyhousecss/toyhouse1";
-import { useThemeContext } from "../contexts/ThemeContext";
+import { useLayoutContext } from "../contexts/LayoutContext";
 
 function compileTemplate(tpl: string, data: Character) {
     // Replace {{key}} with value (naive). Supports nested keys like a.b
@@ -20,13 +19,13 @@ function compileTemplate(tpl: string, data: Character) {
 
 export const PageMaker: React.FC = () => {
     
-    const { theme } = useThemeContext();
+    const { theme } = useLayoutContext();
 
     const { selectedId, characters } = useCharacterContext();
     const [characterData, setCharacterData] = useState<Character>(characters[0] || new Character("fake"));
 
     useEffect(() => {
-        if (selectedId) {
+        if (selectedId && selectedId !== characterData?.id) {
             setCharacterData(characters.find((c) => c.id === selectedId) || characters[0] || null);
         }
     }, [selectedId])

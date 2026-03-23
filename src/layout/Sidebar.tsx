@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef } from "react";
 import {
     Box,
     List,
@@ -9,19 +9,16 @@ import {
     Typography,
     Button,
     Stack,
-    Divider,
     Drawer,
     FormControl,
     InputLabel,
     Select,
-    useTheme,
     MenuItem,
 } from "@mui/material";
 import { useCharacterContext } from "../contexts/CharacterContext";
 import { Character } from "../types/character";
-import { useThemeContext } from "../contexts/ThemeContext";
-import { THEMES } from "../themes/themes";
-import { Theme } from "../types/theme";
+import { useLayoutContext } from "../contexts/LayoutContext";
+import { LAYOUTS } from "../layouts/layouts";
 
 function makeId() {
     return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 9)}`;
@@ -34,7 +31,7 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ open, toggleDrawer }: SidebarProps) => {
     const { characters, addCharacter, addCharacters, selectedId, setSelectedId } = useCharacterContext();
-    const { theme, setTheme } = useThemeContext();
+    const { theme, setTheme } = useLayoutContext();
 
     const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -90,9 +87,12 @@ const Sidebar: React.FC<SidebarProps> = ({ open, toggleDrawer }: SidebarProps) =
 
     return (
         <Drawer variant="permanent" open={open} onClose={toggleDrawer}>
-            <Box borderBottom={1} borderColor="divider" p={1}>
+            <Box borderBottom={1} borderColor="divider" p={1} display="flex" justifyContent="center" alignItems="center" gap={.5}>
+                <Box width="32px" height="32px">
+                    <img src={`${process.env.PUBLIC_URL}/assets/toymaker_logo.svg`} alt="logo_img" width="100%" height="100%" />
+                </Box>
                 <Typography variant="h6">
-                    Spec's Toyhouse Maker
+                    Toymaker
                 </Typography>
             </Box>
             {/* Theme Selector: */}
@@ -107,7 +107,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open, toggleDrawer }: SidebarProps) =
                             onChange={(e) => { setTheme(e.target.value) }}
                             size="small"
                         >
-                            {THEMES.map((t) => (
+                            {LAYOUTS.map((t) => (
                                 <MenuItem key={t.id} value={t.id}>
                                     <Box display="flex" alignItems="center" flexDirection="column" gap={1}>
                                         {t.previewImage && (
