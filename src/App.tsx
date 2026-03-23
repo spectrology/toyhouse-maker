@@ -38,6 +38,8 @@ function App() {
 
   return (
     <div className="App">
+      <meta name="title" content="Spec's Toyhouse Maker" />
+      <meta name="description" content="A tool to create character pages for Toyhouse. Create and manage character data, then generate HTML to copy into Toyhouse's custom page editor." />
       <ThemeProvider>
         <CharacterProvider>
           <Sidebar open={sidebarOpen} toggleDrawer={() => setSidebarOpen(!sidebarOpen)} />
