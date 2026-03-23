@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import CharacterEditor from './pages/CharacterEditor';
@@ -8,8 +8,6 @@ import Sidebar from './layout/Sidebar';
 import CharacterContext, { CharacterProvider } from './contexts/CharacterContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import Header from './layout/Header';
-
-
 
 interface TabPanelProps {
   children?: React.ReactNode;
