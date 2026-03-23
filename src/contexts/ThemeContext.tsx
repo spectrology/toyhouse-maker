@@ -29,11 +29,18 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         if (!file) return;
         try {
             const text = await file.text();
-            setThemeData({
-                id: "custom",
-                name: "Custom Theme",
-                template: text,
-            });
+            const parsed = JSON.parse(text);
+            // Basic validation
+            if (typeof parsed.name === "string" && typeof parsed.template === "string") {
+                setThemeData(parsed);
+            } else {
+                setThemeData({
+                    id: "custom",
+                    name: "Custom Theme",
+                    template: text,
+                });
+            }
+
         } finally {
             if (fileInputRef.current) fileInputRef.current.value = "";
         }

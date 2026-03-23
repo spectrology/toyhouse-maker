@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import CharacterEditor from './pages/CharacterEditor';
-import { Box, Container, Grid, Tab, Tabs } from '@mui/material';
+import { Box } from '@mui/material';
 import PageMaker from './pages/PageMaker';
 import Sidebar from './layout/Sidebar';
-import CharacterContext, { CharacterProvider } from './contexts/CharacterContext';
+import { CharacterProvider } from './contexts/CharacterContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import Header from './layout/Header';
+import Documentation from './pages/Documentation';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -55,6 +55,9 @@ function App() {
             </CustomTabPanel>
             <CustomTabPanel value={tab} index={1}>
               <PageMaker />
+            </CustomTabPanel>
+            <CustomTabPanel value={tab} index={2}>
+              <Documentation />
             </CustomTabPanel>
           </Box>
         </CharacterProvider>

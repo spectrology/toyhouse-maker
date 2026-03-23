@@ -39,7 +39,7 @@ const Header: React.FC<HeaderProps> = ({ currentTab, setCurrentTab }: HeaderProp
             minHeight: "0 !important",
             position: "sticky",
             backgroundColor: "background.paper",
-            zIndex: 1100,
+            zIndex: 1200,
             sticky: "top",
             top: 0,
         }}>
@@ -47,6 +47,7 @@ const Header: React.FC<HeaderProps> = ({ currentTab, setCurrentTab }: HeaderProp
                 <Tabs value={currentTab} onChange={handleChange} aria-label="basic tabs example">
                     <Tab label="Character Editor" {...a11yProps(0)} />
                     <Tab label="Page Maker" {...a11yProps(1)} />
+                    <Tab label="Documentation" {...a11yProps(2)} />
                 </Tabs>
             </Box>
         </Toolbar >

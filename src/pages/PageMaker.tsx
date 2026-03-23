@@ -1,15 +1,8 @@
 import React, { useEffect, useMemo, useState } from "react";
 import {
     Box,
-    TextField,
-    FormControl,
-    InputLabel,
-    Select,
-    MenuItem,
     Typography,
-    Paper,
     Button,
-    Menu,
 } from "@mui/material";
 import { Character } from "../types/character";
 import { useCharacterContext } from "../contexts/CharacterContext";
