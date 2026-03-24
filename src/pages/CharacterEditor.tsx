@@ -6,14 +6,14 @@ import { useLayoutContext } from "../contexts/LayoutContext";
 import { FieldConfig } from "../types/layout";
 
 const fields: FieldConfig[] = [
-    { name: "name", label: "Name", type: "text", xs: 12, isCustom: false },
-    { name: "age", label: "Age", type: "number", xs: 3.5, isCustom: false },
-    { name: "ageunit", label: "Unit", type: "select", options: [{ value: "sweeps", label: "Sweeps" }, { value: "years", label: "Years" }], xs: 2.5, isCustom: false },
-    { name: "height", label: "Height", type: "text", xs: 6, isCustom: false },
-    { name: "pronouns", label: "Pronouns", type: "text", xs: 6, placeholder: "e.g. she/her", isCustom: false },
-    { name: "occupation", label: "Occupation", type: "text", xs: 6, isCustom: false },
-    { name: "color", label: "Associated Color", type: "color", xs: 12, isCustom: false },
-    { name: "bio", label: "About", type: "multiline", xs: 12, rows: 4, isCustom: false },
+    { name: "name", label: "Name", type: "text", size: 12, isCustom: false },
+    { name: "age", label: "Age", type: "number", size: 3.5, isCustom: false },
+    { name: "ageunit", label: "Unit", type: "select", options: [{ value: "sweeps", label: "Sweeps" }, { value: "years", label: "Years" }], size: 2.5, isCustom: false },
+    { name: "height", label: "Height", type: "text", size: 6, isCustom: false },
+    { name: "pronouns", label: "Pronouns", type: "text", size: 6, placeholder: "e.g. she/her", isCustom: false },
+    { name: "occupation", label: "Occupation", type: "text", size: 6, isCustom: false },
+    { name: "color", label: "Associated Color", type: "color", size: 12, isCustom: false },
+    { name: "bio", label: "About", type: "multiline", size: 12, rows: 4, isCustom: false },
 ];
 
 const CharacterEditor: React.FC = () => {
@@ -54,7 +54,7 @@ const CharacterEditor: React.FC = () => {
             name: name as keyof Character & string,
             label: name.charAt(0).toUpperCase() + name.slice(1),
             type: "text",
-            xs: 12,
+            size: 12,
             isCustom: true,
         };
         setAdditionalFields((prev) => [...prev, newField]);
@@ -80,7 +80,7 @@ const CharacterEditor: React.FC = () => {
                                 const val = (characterData as any)[f.name];
                                 const valueProp = f.type === "color" ? (val || "#f7f7f7") : (val ?? "");
                                 return (
-                                    <Grid size={f.xs ?? 12} key={f.name}>
+                                    <Grid size={f.size ?? 12} key={f.name}>
                                         {f.type === "select" ? (
                                             <FormControl fullWidth margin="normal">
                                                 <InputLabel>{f.label}</InputLabel>

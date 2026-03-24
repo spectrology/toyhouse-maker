@@ -33,10 +33,10 @@ export const Documentation: React.FC = () => {
                 <p>To take advantage of advanced theme options, custom themes must be written in JSON format. Custom themes must have at least a name and a template:</p>
 
                 <CodeBlock>
-                    {`{
-                        "name": "My Custom Theme",
-                        "template": "<div>{{name}}</div>"
-                    }`}
+{`{
+    "name": "My Custom Theme",
+    "template": "<div>{{name}}</div>"
+}`}
                 </CodeBlock>
                 <p>To import an advanced custom theme, go to the Theme Selector in the sidebar and choose "Custom Theme". Then select your JSON file.</p>
                 <h4>Theme Fields</h4>
@@ -44,17 +44,17 @@ export const Documentation: React.FC = () => {
                 <p>You can add custom fields to your theme using the "additionalFields" property in the theme's JSON definition.</p>
 
                 <CodeBlock>
-                    {`{
-                        "name": "My Custom Theme",
-                        "template": "<div>{{name}}</div>"
-                        "additionalFields": [
-                            {
-                                "name": "hobbies",
-                                "label": "Hobbies",
-                                "type": "text"
-                            }
-                        ]
-                    }`}
+{`{
+    "name": "My Custom Theme",
+    "template": "<div>{{name}}</div>"
+    "additionalFields": [
+        {
+            "name": "hobbies",
+            "label": "Hobbies",
+            "type": "text"
+        }
+    ]
+}`}
                 </CodeBlock>
 
                 <p>In this example, an additional field called "hobbies" is added to the theme. This field will then be available in the character editor when this theme is selected, allowing you to input data for it. You can then use &#123;&#123;hobbies&#125;&#125; in your template to display this data.</p>
@@ -75,7 +75,7 @@ export const Documentation: React.FC = () => {
                                 <TableCell>name</TableCell>
                                 <TableCell><CodeBlock>string</CodeBlock></TableCell>
                                 <TableCell>-</TableCell>
-                                <TableCell><i>(required)</i> The name of the field. This is how you will refer to the fields content in your template, i.e. &#123;&#123; name &#125;&#125;</TableCell>
+                                <TableCell><i>(required)</i> The name of the field. This is how you will refer to the fields content in your template.</TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell>label</TableCell>
@@ -94,6 +94,12 @@ export const Documentation: React.FC = () => {
                                 <TableCell><CodeBlock>string[]</CodeBlock></TableCell>
                                 <TableCell>-</TableCell>
                                 <TableCell>Used exclusively for "select" type fields. The options for the field.</TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell>size</TableCell>
+                                <TableCell><CodeBlock>number</CodeBlock></TableCell>
+                                <TableCell>12</TableCell>
+                                <TableCell><i>(optional)</i> Sets the width of the field according to the grid system. 12 represents the full width.</TableCell>
                             </TableRow>
                         </TableBody>
                     </Table>

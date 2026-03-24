@@ -10,7 +10,7 @@ export type FieldConfig = {
     name: string;
     label: string;
     type?: "text" | "number" | "color" | "multiline" | "select";
-    xs?: number;
+    size?: number;
     rows?: number;
     placeholder?: string;
     options?: { value: string; label: string }[];
