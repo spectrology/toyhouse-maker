@@ -128,7 +128,7 @@ const CharacterEditor: React.FC = () => {
                                                         </Button>
                                                     )}
                                                     {f.fromLayout && (
-                                                        <Typography variant="caption" color="textSecondary" sx={{ ml: 1 }}>From Theme</Typography>
+                                                        <Typography variant="caption" color="textSecondary" sx={{ ml: 1 }}>Imported from Layout</Typography>
                                                     )}
                                                 </Grid>
                                             </Grid>
