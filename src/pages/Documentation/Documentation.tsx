@@ -17,7 +17,7 @@ export const Documentation: React.FC = () => {
 
                 <h2>Character Data</h2>
                 <p>Character data is managed in the Character Editor tab. You can add multiple characters, each with their own set of attributes. The template in the Page Maker tab will use this data to generate the HTML preview.</p>
-                <p>Each character has a preset number of attributes, but additional attributes can be added as needed, or will be automatically added based on the selected theme.</p>
+                <p>Each character has a preset number of attributes, but additional attributes can be added as needed, or will be automatically added based on the selected layout.</p>
                 <p>Character data can be exported as JSON for backup and imported back into the app. When importing, characters will be added to the existing character list.</p>
 
                 <h2>Page Maker</h2>
@@ -64,7 +64,7 @@ export const Documentation: React.FC = () => {
                 }`}
                 </CodeBlock>
 
-                <p>In this example, an additional field called "hobbies" is added to the theme. This field will then be available in the character editor when this theme is selected, allowing you to input data for it. You can then use <CodeBlock inline>{`{{hobbies}}`}</CodeBlock>in your template to display this data.</p>
+                <p>In this example, an additional field called "hobbies" is added to the layout. This field will then be available in the character editor when this layout is selected, allowing you to input data for it. You can then use <CodeBlock inline>{`{{hobbies}}`}</CodeBlock>in your template to display this data.</p>
                 <p>Additional fields can be of various types, such as text, number, color, multiline, or select. This allows for greater flexibility in the kind of data you can include in your character pages.</p>
                 <p>The chart below describes the options available for additional fields:</p>
                 <FieldConfigDoc />
