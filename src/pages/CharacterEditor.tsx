@@ -71,7 +71,12 @@ const CharacterEditor: React.FC = () => {
                             <Button type="button" onClick={() => deleteCharacter(selectedId!)} color="error" variant="contained">Delete</Button>
                         </Box>
                         <Grid container columnSpacing={1} mb={1}>
-                            {[...fields, ...additionalFields, ...(layout.additionalFields || [])].map((f) => {
+                            {[...fields, ...additionalFields, ...(layout.additionalFields || []).map(f => {
+                                return {
+                                    ...f,
+                                    fromTheme: true,
+                                }
+                            })].map((f) => {
                                 const val = (characterData as any)[f.name];
                                 const valueProp = f.type === "color" ? (val || "#f7f7f7") : (val ?? "");
                                 return (

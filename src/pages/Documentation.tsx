@@ -21,8 +21,8 @@ export const Documentation: React.FC = () => {
                 <p>You can copy the generated HTML to your clipboard or open it in a new tab for easier copying. The generated HTML is designed to be pasted directly into Toyhouse's custom page editor.</p>
                 <h2>Custom Themes</h2>
 
-                <p>You can create your own themes by writing html templates, and putting &#123;&#123; field_name &#125;&#125; where you want to insert character data.</p>
-                <p>For example: &#123;&#123; hobbies &#125;&#125;</p>
+                <p>You can create your own themes by writing html templates, and putting &#123;&#123;field_name&#125;&#125; where you want to insert character data.</p>
+                <p>For example: &#123;&#123;hobbies&#125;&#125;</p>
                 <p> You can then add the "hobbies" field to your character's data using the "Add Additional Field" tool in the Character Editor.</p>
                 <Alert severity="info" sx={{ border: 1, borderColor: "info" }}>
                     In the future, Toymaker will automatically parse out fields from your template and add them to the character editor, but for now you must add them manually.
@@ -35,7 +35,7 @@ export const Documentation: React.FC = () => {
                 <CodeBlock>
                     {`{
                         "name": "My Custom Theme",
-                        "template": "<div>{{ name }}</div>"
+                        "template": "<div>{{name}}</div>"
                     }`}
                 </CodeBlock>
                 <p>To import an advanced custom theme, go to the Theme Selector in the sidebar and choose "Custom Theme". Then select your JSON file.</p>
@@ -45,19 +45,19 @@ export const Documentation: React.FC = () => {
 
                 <CodeBlock>
                     {`{
-    "name": "My Custom Theme",
-    "template": "<div>{{ name }}</div>"
-    "additionalFields": [
-        {
-            "name": "hobbies",
-            "label": "Hobbies",
-            "type": "text"
-        }
-    ]
-}`}
+                        "name": "My Custom Theme",
+                        "template": "<div>{{name}}</div>"
+                        "additionalFields": [
+                            {
+                                "name": "hobbies",
+                                "label": "Hobbies",
+                                "type": "text"
+                            }
+                        ]
+                    }`}
                 </CodeBlock>
 
-                <p>In this example, an additional field called "hobbies" is added to the theme. This field will then be available in the character editor when this theme is selected, allowing you to input data for it. You can then use &#123;&#123; hobbies &#125;&#125; in your template to display this data.</p>
+                <p>In this example, an additional field called "hobbies" is added to the theme. This field will then be available in the character editor when this theme is selected, allowing you to input data for it. You can then use &#123;&#123;hobbies&#125;&#125; in your template to display this data.</p>
                 <p>Additional fields can be of various types, such as text, number, color, multiline, or select. This allows for greater flexibility in the kind of data you can include in your character pages.</p>
                 <p>The chart below describes the options available for additional fields:</p>
                 <TableContainer component={Paper} sx={{ border: 1, borderColor: "divider" }}>
