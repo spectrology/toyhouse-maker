@@ -106,15 +106,15 @@ const Sidebar: React.FC<SidebarProps> = ({ open, toggleDrawer, currentTab, setCu
                     Toymaker <Chip color="primary" size="small" label="BETA" />
                 </Typography>
             </Box>
-            {/* Theme Selector: */}
+            {/* Layout Selector: */}
             <Box borderBottom={1} borderColor="divider" p={1}>
                 <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
                     <FormControl sx={{ mt: 1 }} fullWidth>
-                        <InputLabel id="theme-select-label">Theme</InputLabel>
+                        <InputLabel id="layout-select-label">Layout</InputLabel>
                         <Select
-                            labelId="theme-select-label"
+                            labelId="layout-select-label"
                             value={layout.id}
-                            label="Theme"
+                            label="Layout"
                             onChange={(e) => { setLayout(e.target.value) }}
                             size="small"
                         >

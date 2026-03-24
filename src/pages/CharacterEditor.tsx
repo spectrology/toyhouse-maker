@@ -74,7 +74,7 @@ const CharacterEditor: React.FC = () => {
                             {[...fields, ...additionalFields, ...(layout.additionalFields || []).map(f => {
                                 return {
                                     ...f,
-                                    fromTheme: true,
+                                    fromLayout: true,
                                 }
                             })].map((f) => {
                                 const val = (characterData as any)[f.name];
@@ -99,7 +99,7 @@ const CharacterEditor: React.FC = () => {
                                             </FormControl>
                                         ) : (
                                             <Grid container>
-                                                <Grid size={(f.isCustom || f.fromTheme) ? 10 : 12}>
+                                                <Grid size={(f.isCustom || f.fromLayout) ? 10 : 12}>
                                                     <TextField
                                                         fullWidth
                                                         label={f.label}
@@ -114,7 +114,7 @@ const CharacterEditor: React.FC = () => {
                                                         InputLabelProps={f.type === "color" ? { shrink: true } : undefined}
                                                     />
                                                 </Grid>
-                                                <Grid size={(f.isCustom || f.fromTheme) ? 2 : 0} sx={{ display: "flex", alignItems: "center" }}>
+                                                <Grid size={(f.isCustom || f.fromLayout) ? 2 : 0} sx={{ display: "flex", alignItems: "center" }}>
                                                     {f.isCustom && (
                                                         <Button
                                                             variant="outlined"
@@ -127,7 +127,7 @@ const CharacterEditor: React.FC = () => {
                                                             Remove
                                                         </Button>
                                                     )}
-                                                    {f.fromTheme && (
+                                                    {f.fromLayout && (
                                                         <Typography variant="caption" color="textSecondary" sx={{ ml: 1 }}>From Theme</Typography>
                                                     )}
                                                 </Grid>

@@ -7,7 +7,7 @@ import Sidebar from './layout/Sidebar';
 import { CharacterProvider } from './contexts/CharacterContext';
 import { LayoutProvider } from './contexts/LayoutContext';
 import Header from './layout/Header';
-import Documentation from './pages/Documentation';
+import Documentation from './pages/Documentation/Documentation';
 import { lightTheme } from './contexts/themes/lighttheme';
 import { darkTheme } from './contexts/themes/darktheme';
 import { SettingsProvider } from './contexts/SettingsContext';
