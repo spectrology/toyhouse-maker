@@ -37,7 +37,7 @@ function CustomTabPanel(props: TabPanelProps) {
 function App() {
 
   const [sidebarOpen, setSidebarOpen] = React.useState(true);
-  const [tab, setTab] = React.useState(1);
+  const [tab, setTab] = React.useState(2);
 
   useEffect(() => {
     document.title = "Toymaker";
