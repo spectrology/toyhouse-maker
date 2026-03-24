@@ -14,12 +14,13 @@ import {
     InputLabel,
     Select,
     MenuItem,
+    Badge,
+    Chip,
 } from "@mui/material";
 import { useCharacterContext } from "../contexts/CharacterContext";
 import { Character } from "../types/character";
 import { useLayoutContext } from "../contexts/LayoutContext";
 import { LAYOUTS } from "../layouts/layouts";
-import { useSettingsContext } from "../contexts/SettingsContext";
 
 function makeId() {
     return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 9)}`;
@@ -93,7 +94,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open, toggleDrawer }: SidebarProps) =
                     <img src={`${process.env.PUBLIC_URL}/assets/toymaker_logo.svg`} alt="logo_img" width="100%" height="100%" />
                 </Box>
                 <Typography variant="h6">
-                    Toymaker
+                    Toymaker <Chip color="primary" size="small" label="BETA" />
                 </Typography>
             </Box>
             {/* Theme Selector: */}

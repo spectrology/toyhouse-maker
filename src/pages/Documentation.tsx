@@ -11,7 +11,9 @@ export const Documentation: React.FC = () => {
             <Box textAlign="left" p={4}>
                 <h1>Documentation</h1>
                 <p>Welcome to <b>Toymaker</b>! This tool is designed to help you create character pages for <a href="http://toyhou.se">Toyhouse</a> with ease.</p>
-
+                <Alert severity="warning" sx={{ border: 1, borderColor: "warning" }}>
+                    Toymaker is in <b>beta</b>! This means that while the core features are functional, there may be bugs, and the user interface may change as I work on the app. It also means more features are coming!
+                </Alert>
                 <h2>Character Data</h2>
                 <p>Character data is managed in the Character Editor tab. You can add multiple characters, each with their own set of attributes. The template in the Page Maker tab will use this data to generate the HTML preview.</p>
                 <p>Each character has a preset number of attributes, but additional attributes can be added as needed, or will be automatically added based on the selected theme.</p>
