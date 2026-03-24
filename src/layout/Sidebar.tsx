@@ -19,6 +19,7 @@ import { useCharacterContext } from "../contexts/CharacterContext";
 import { Character } from "../types/character";
 import { useLayoutContext } from "../contexts/LayoutContext";
 import { LAYOUTS } from "../layouts/layouts";
+import { useSettingsContext } from "../contexts/SettingsContext";
 
 function makeId() {
     return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 9)}`;
@@ -31,7 +32,7 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ open, toggleDrawer }: SidebarProps) => {
     const { characters, addCharacter, addCharacters, selectedId, setSelectedId } = useCharacterContext();
-    const { theme, setTheme } = useLayoutContext();
+    const { layout, setLayout } = useLayoutContext();
 
     const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -102,16 +103,16 @@ const Sidebar: React.FC<SidebarProps> = ({ open, toggleDrawer }: SidebarProps) =
                         <InputLabel id="theme-select-label">Theme</InputLabel>
                         <Select
                             labelId="theme-select-label"
-                            value={theme.id}
+                            value={layout.id}
                             label="Theme"
-                            onChange={(e) => { setTheme(e.target.value) }}
+                            onChange={(e) => { setLayout(e.target.value) }}
                             size="small"
                         >
                             {LAYOUTS.map((t) => (
                                 <MenuItem key={t.id} value={t.id}>
                                     <Box display="flex" alignItems="center" flexDirection="column" gap={1}>
                                         {t.previewImage && (
-                                            <img src={t.previewImage} alt={t.name} style={{ width: 160, height: 100, objectFit: "cover" }} />
+                                            <img src={t.previewImage} alt={t.name} style={{ width: 200, height: 100, objectFit: "cover" }} />
                                         )}
                                         <Box display="flex" alignItems="center" justifyContent="center">
                                             <Typography variant="h6">{t.name}</Typography>
@@ -121,7 +122,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open, toggleDrawer }: SidebarProps) =
                             ))}
                             <MenuItem key="custom" value={"custom"}>
                                 <Box display="flex" alignItems="center" flexDirection="column" gap={1}>
-                                    <Box width={160} height={100} bgcolor="grey.300" display="flex" alignItems="center" justifyContent="center">
+                                    <Box width={200} height={100} bgcolor="grey.300" display="flex" alignItems="center" justifyContent="center">
                                         <Typography variant="h3" color="text.secondary">
                                             {`</>`}
                                         </Typography>

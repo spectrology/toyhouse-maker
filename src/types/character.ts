@@ -20,11 +20,12 @@ export class Character implements Character {
     height?: string;
     pronouns?: string;
     occupation?: string;
-    blood?: string;
+    color?: string;
     bio?: string;
     createdAt?: string;
+    [key: string]: any; // Allow additional fields
 
-    constructor(id: string, name?: string, age?: number, ageunit?: "sweeps" | "years" | string, height?: string, pronouns?: string, occupation?: string, blood?: string, bio?: string, createdAt?: string) {
+    constructor(id: string, name?: string, age?: number, ageunit?: "sweeps" | "years" | string, height?: string, pronouns?: string, occupation?: string, color?: string, bio?: string, createdAt?: string) {
         this.id = id;
         this.name = name || "Unnamed";
         this.age = age;
@@ -32,7 +33,7 @@ export class Character implements Character {
         this.height = height;
         this.pronouns = pronouns;
         this.occupation = occupation;
-        this.blood = blood;
+        this.color = color;
         this.bio = bio;
         this.createdAt = createdAt;
     }

@@ -4,7 +4,7 @@ export const LAYOUTS: Layout[] = [
     {
         id: "daspec",
         name: "Spec Classic",
-        previewImage: "https://hips.hearstapps.com/hmg-prod/images/gettyimages-1136021131.jpg",
+        previewImage: "https://64.media.tumblr.com/85a6a61421fed8257a778e4c8dd8c3de/fecf77982676669a-37/s1280x1920/119cad2b0f77d91a40f976d41279e4df14ca7183.pnj",
         additionalFields: [
             { name: "tagline", label: "Tagline", type: "text", fromTheme: true },
             { name: "orientation", label: "Orientation", type: "text", fromTheme: true },
@@ -133,11 +133,125 @@ export const LAYOUTS: Layout[] = [
                             <div class="card p-4">
 
                                 <!-- Introduction -->
-                                <div id="intro">
-                                    <h1 class="text-center"><b>intro;</b></h1>
+                                <div id="intro" class="mb-4">
+                                    <h1 class="text-center"><b>intro</b></h1>
                                     {{bio}}
                                 </div>
                                 <!-- End Introduction-->
+
+                                <!-- Skills -->
+                                <div id="skills">
+                                    <h1 class="text-center"><b>skills</b></h1>
+                                    <div class="row pt-2">
+                                        <div class="col col-12 col-md-6 p-0 pl-2 pr-2">
+                                            <div class="card p-3 border-0" style="background-color: rgba(0,0,0,.04)">
+                                                <h2>strengths</h2>
+                                                <div class="row text-left">
+                                                    <div class="col col-2">
+                                                        <i class="fa fa-plus"></i>
+                                                    </div>
+                                                    <div class="col col-10">
+                                                        {{strength1}}
+                                                    </div>
+                                                </div>
+                                                <div class="row text-left">
+                                                    <div class="col col-2">
+                                                        <i class="fa fa-plus"></i>
+                                                    </div>
+                                                    <div class="col col-10">
+                                                        {{strength2}}
+                                                    </div>
+                                                </div>
+                                                <div class="row text-left">
+                                                    <div class="col col-2">
+                                                        <i class="fa fa-plus"></i>
+                                                    </div>
+                                                    <div class="col col-10">
+                                                        {{strength3}}
+                                                    </div>
+                                                </div>
+                                                <div class="row text-left">
+                                                    <div class="col col-2">
+                                                        <i class="fa fa-plus"></i>
+                                                    </div>
+                                                    <div class="col col-10">
+                                                        {{strength4}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col col-12 col-md-6 p-0 pr-2 pl-2">
+                                            <div class="card p-3 border-0" style="background-color: rgba(0,0,0,.04)">
+                                                <h2>weaknesses</h2>
+                                                <div class="row text-left">
+                                                    <div class="col col-2">
+                                                        <i class="fa fa-minus"></i>
+                                                    </div>
+                                                    <div class="col col-10">
+                                                        {{weakness1}}
+                                                    </div>
+                                                </div>
+                                                <div class="row text-left">
+                                                    <div class="col col-2">
+                                                        <i class="fa fa-minus"></i>
+                                                    </div>
+                                                    <div class="col col-10">
+                                                        {{weakness2}}
+                                                    </div>
+                                                </div>
+                                                <div class="row text-left">
+                                                    <div class="col col-2">
+                                                        <i class="fa fa-minus"></i>
+                                                    </div>
+                                                    <div class="col col-10">
+                                                        {{weakness3}}
+                                                    </div>
+                                                </div>
+                                                <div class="row text-left">
+                                                    <div class="col col-2">
+                                                        <i class="fa fa-minus"></i>
+                                                    </div>
+                                                    <div class="col col-10">
+                                                        {{weakness4}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- End Skills-->
+
+                                <!-- Personality -->
+                                <div id="personality" class="mt-4">
+                                    <h1 class="text-center"><b>personality</b></h1>
+                                    likes and dislikes
+                                </div>
+                                <!-- End Personality -->
+
+                                <!-- Relationships -->
+                                <div id="relationships" class="mt-4">
+                                    <h1 class="text-center"><b>relationships</b></h1>
+                                    <div class="row mt-3">
+                                        <div class="col col-3" style="min-height: 100%">
+                                            <div style="background-color: rgba(0,0,0,.04); max-height: 120px; min-height: 80px" class="h-100 w-100">
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="col col-9 text-left">
+                                            <h3>friend</h3>
+                                            <p>vert align this center</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- End Relationships -->
+
+                                <!-- Links -->
+                                <div id="links" class="mt-4">
+                                    <h1 class="text-center"><b>links</b></h1>
+                                    description of links
+                                </div>
+                                <!-- End Links -->
+
                             </div>
                         </div>
                     </div>
@@ -145,22 +259,4 @@ export const LAYOUTS: Layout[] = [
             </div>
         `,
     },
-    // {
-    //     id: "theatre",
-    //     name: "Theatre Poster",
-    //     style: `
-    //         .poster{font-family:Georgia,serif;color:#fff;background:linear-gradient(135deg,#8e44ad,#3498db);padding:24px;border-radius:6px;width:360px}
-    //         .poster .name{font-size:26px;font-weight:700}
-    //         .poster .subtitle{opacity:0.9;margin-bottom:12px}
-    //         .poster img{width:100%;height:160px;object-fit:cover;border-radius:4px;margin-top:12px}
-    //     `,
-    //     template: `
-    //         <div class="poster">
-    //             <div class="name">{{name}}</div>
-    //             <div class="subtitle">{{class}} · Level {{level}}</div>
-    //             <div style="font-size:14px;opacity:0.95">{{bio}}</div>
-    //             <img src="{{avatar}}" alt="{{name}}"/>
-    //         </div>
-    //     `,
-    // },
 ];

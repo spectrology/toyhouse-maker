@@ -19,13 +19,13 @@ const fields: FieldConfig[] = [
 const CharacterEditor: React.FC = () => {
 
     const { selectedId, setCharacter, characters, deleteCharacter } = useCharacterContext();
-    const { theme } = useLayoutContext();
+    const { layout } = useLayoutContext();
     const [characterData, setCharacterData] = useState<Character | null>(characters[0]);
     const [additionalFields, setAdditionalFields] = useState<FieldConfig[]>([]);
     const [nextAdditionalFieldName, setNextAdditionalFieldName] = useState<string>("");
 
     useEffect(() => {
-        if (selectedId && selectedId !== characterData?.id) {
+        if (selectedId) {
             setCharacterData(characters.find((c) => c.id === selectedId) || characters[0]);
         } else {
             setCharacterData(null);
@@ -34,7 +34,7 @@ const CharacterEditor: React.FC = () => {
 
     const handleChange = (e: React.ChangeEvent<Omit<HTMLInputElement, "value"> & { value: any; }, Element>) => {
         const { name, value } = e.target as HTMLInputElement;
-        const cfg = fields.find((f) => f.name === name) || additionalFields.find((f) => f.name === name) || theme?.additionalFields?.find((f) => f.name === name);
+        const cfg = fields.find((f) => f.name === name) || additionalFields.find((f) => f.name === name) || layout?.additionalFields?.find((f) => f.name === name);
         setCharacterData((prev) => ({
             ...(prev || new Character("fake")),
             [name]: cfg?.type === "number" ? (value === "" ? undefined : Number(value)) : value
@@ -71,7 +71,7 @@ const CharacterEditor: React.FC = () => {
                             <Button type="button" onClick={() => deleteCharacter(selectedId!)} color="error" variant="contained">Delete</Button>
                         </Box>
                         <Grid container columnSpacing={1} mb={1}>
-                            {[...fields, ...additionalFields, ...(theme.additionalFields || [])].map((f) => {
+                            {[...fields, ...additionalFields, ...(layout.additionalFields || [])].map((f) => {
                                 const val = (characterData as any)[f.name];
                                 const valueProp = f.type === "color" ? (val || "#f7f7f7") : (val ?? "");
                                 return (

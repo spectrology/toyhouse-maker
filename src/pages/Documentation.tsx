@@ -7,8 +7,8 @@ export const Documentation: React.FC = () => {
     const theme = useTheme();
 
     return (
-        <Container maxWidth="md" sx={{ py: 4 }} >
-            <Box textAlign="left">
+        <Container maxWidth="md" >
+            <Box textAlign="left" p={4}>
                 <h1>Documentation</h1>
                 <p>Welcome to <b>Toymaker</b>! This tool is designed to help you create character pages for <a href="http://toyhou.se">Toyhouse</a> with ease.</p>
 

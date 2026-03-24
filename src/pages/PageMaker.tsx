@@ -3,11 +3,12 @@ import {
     Box,
     Typography,
     Button,
+    useTheme,
 } from "@mui/material";
 import { Character } from "../types/character";
 import { useCharacterContext } from "../contexts/CharacterContext";
-import { toyhousecss } from "./toyhousecss/toyhouse1";
 import { useLayoutContext } from "../contexts/LayoutContext";
+import { useSettingsContext } from "../contexts/SettingsContext";
 
 function compileTemplate(tpl: string, data: Character) {
     // Replace {{key}} with value (naive). Supports nested keys like a.b
@@ -18,9 +19,10 @@ function compileTemplate(tpl: string, data: Character) {
 }
 
 export const PageMaker: React.FC = () => {
-    
-    const { theme } = useLayoutContext();
 
+    const theme = useTheme();
+    const { layout } = useLayoutContext();
+    const { toyhouseCss } = useSettingsContext();
     const { selectedId, characters } = useCharacterContext();
     const [characterData, setCharacterData] = useState<Character>(characters[0] || new Character("fake"));
 
@@ -32,10 +34,11 @@ export const PageMaker: React.FC = () => {
 
     const htmlPreview = useMemo(() => {
         if (!characterData) return "<div style='color:#c00'>Invalid JSON</div>";
-        const body = compileTemplate(theme.template, characterData);
+        const body = compileTemplate(layout.template, characterData);
         return `
             <style>
-                ${toyhousecss}
+                @import url('https://toyhou.se/css/main.css');
+                ${toyhouseCss}
             </style>
                 ${body}
         `;
@@ -44,7 +47,7 @@ export const PageMaker: React.FC = () => {
     return (
         <Box display="flex" flexDirection="column" gap={2} overflow="hidden" p={3}>
             {/* HTML Preview: */}
-            <Box height="calc(100vh - 280px)" sx={{ flex: 1, display: "flex", flexDirection: "column"}}>
+            <Box height="calc(100vh - 280px)" sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
                 <Box display="flex" alignItems="center" justifyContent="space-between" mb={2}>
                     <Typography variant="h5">HTML Preview</Typography>
                     <Box display="flex" gap={1}>
@@ -55,7 +58,7 @@ export const PageMaker: React.FC = () => {
                             Pop-Out
                         </Button>
                         <Button variant="outlined" onClick={() => {
-                            navigator.clipboard.writeText(compileTemplate(theme.template, characterData)).then(() => {
+                            navigator.clipboard.writeText(compileTemplate(layout.template, characterData)).then(() => {
                                 alert("HTML copied to clipboard!");
                             })
                         }}>

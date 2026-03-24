@@ -8,12 +8,11 @@ import {
 } from "@mui/material";
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
+import { useSettingsContext } from "../contexts/SettingsContext";
 
 interface HeaderProps {
     currentTab: number;
     setCurrentTab: (tab: number) => void;
-    currentTheme: any;
-    setCurrentTheme: (themeType: string) => void;
 }
 
 function a11yProps(index: number) {
@@ -23,11 +22,13 @@ function a11yProps(index: number) {
     };
 }
 
-const Header: React.FC<HeaderProps> = ({ currentTab, setCurrentTab, setCurrentTheme, currentTheme }: HeaderProps) => {
+const Header: React.FC<HeaderProps> = ({ currentTab, setCurrentTab }: HeaderProps) => {
 
     const handleChange = (event: React.SyntheticEvent, tabIndex: number) => {
         setCurrentTab(tabIndex);
     };
+
+    const { mode, setMode } = useSettingsContext();
 
     return (
         <Toolbar sx={{
@@ -51,8 +52,8 @@ const Header: React.FC<HeaderProps> = ({ currentTab, setCurrentTab, setCurrentTh
                 </Tabs>
             </Box>
             <Box>
-                <Button onClick={() => setCurrentTheme(currentTheme.palette.mode === "light" ? "dark" : "light")}>
-                    {currentTheme.palette.mode === "light" ? <DarkModeIcon /> : <LightModeIcon />}
+                <Button onClick={() => setMode(mode === "light" ? "dark" : "light")}>
+                    {mode === "light" ? <DarkModeIcon /> : <LightModeIcon />}
                 </Button>
             </Box>
         </Toolbar >

@@ -16,12 +16,12 @@ type CharacterContextValue = {
 
 const CharacterContext = createContext<CharacterContextValue>({
     characters: [],
-    addCharacter: () => {},
-    addCharacters: () => {},
-    deleteCharacter: () => {},
-    setCharacter: () => {},
+    addCharacter: () => { },
+    addCharacters: () => { },
+    deleteCharacter: () => { },
+    setCharacter: () => { },
     selectedId: null,
-    setSelectedId: () => {},
+    setSelectedId: () => { },
     selectedCharacter: null,
 });
 
@@ -36,7 +36,7 @@ export const CharacterProvider: React.FC<{ children: ReactNode }> = ({ children 
 
     useEffect(() => {
         if (selectedId) {
-            setSelectedCharacter(characters.find((c) => c.id === selectedId) || null);          
+            setSelectedCharacter(characters.find((c) => c.id === selectedId) || null);
         } else {
             setSelectedCharacter(null);
         }
@@ -45,6 +45,7 @@ export const CharacterProvider: React.FC<{ children: ReactNode }> = ({ children 
     const ensureId = (c: NewCharacter): Character => ({
         ...(c as Omit<Character, "id">),
         id: c.id ?? generateId(),
+        name: c.name ?? "Unnamed",
     });
 
     const setCharacter = (id: string, updates: Partial<Character>) => {
