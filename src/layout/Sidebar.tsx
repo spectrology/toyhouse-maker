@@ -14,13 +14,16 @@ import {
     InputLabel,
     Select,
     MenuItem,
-    Badge,
     Chip,
+    useTheme,
+    useMediaQuery,
+    Tooltip,
 } from "@mui/material";
 import { useCharacterContext } from "../contexts/CharacterContext";
 import { Character } from "../types/character";
 import { useLayoutContext } from "../contexts/LayoutContext";
 import { LAYOUTS } from "../layouts/layouts";
+import SearchIcon from '@mui/icons-material/Search';
 
 function makeId() {
     return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 9)}`;
@@ -29,11 +32,15 @@ function makeId() {
 interface SidebarProps {
     open: boolean;
     toggleDrawer: () => void;
+    currentTab: number;
+    setCurrentTab: (tab: number) => void;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ open, toggleDrawer }: SidebarProps) => {
+const Sidebar: React.FC<SidebarProps> = ({ open, toggleDrawer, currentTab, setCurrentTab }: SidebarProps) => {
     const { characters, addCharacter, addCharacters, selectedId, setSelectedId } = useCharacterContext();
     const { layout, setLayout } = useLayoutContext();
+    const theme = useTheme();
+    const bigScreen = useMediaQuery(theme.breakpoints.up('sm'));
 
     const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -41,6 +48,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open, toggleDrawer }: SidebarProps) =
         const id = makeId();
         addCharacter(new Character(id, `New Character ${characters.length + 1}`, undefined, undefined, undefined, undefined, undefined, "", "", new Date().toISOString()));
         setSelectedId(id);
+        if (currentTab === 2) setCurrentTab(0);
     };
 
     const triggerImport = () => fileInputRef.current?.click();
@@ -55,9 +63,10 @@ const Sidebar: React.FC<SidebarProps> = ({ open, toggleDrawer }: SidebarProps) =
                 ? parsed.map((p) => normalize(p))
                 : [normalize(parsed)];
             // add to context (ensureId inside context will fill ids)
-            console.log(incoming)
             addCharacters(incoming as any);
             if (incoming[0]) setSelectedId(incoming[0].id);
+            // If characters are uploaded and we're looking at docs, go to character editor
+            if (currentTab === 2) setCurrentTab(0);
         } catch {
             alert("Failed to import characters. Ensure the file is valid JSON.");
         } finally {
@@ -80,7 +89,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open, toggleDrawer }: SidebarProps) =
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = "characters.json";
+        a.download = "characters.tymkr";
         document.body.appendChild(a);
         a.click();
         a.remove();
@@ -88,7 +97,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open, toggleDrawer }: SidebarProps) =
     };
 
     return (
-        <Drawer variant="permanent" open={open} onClose={toggleDrawer}>
+        <Drawer variant={bigScreen ? "persistent" : "temporary"} open={open} onClose={toggleDrawer}>
             <Box borderBottom={1} borderColor="divider" p={1} display="flex" justifyContent="center" alignItems="center" gap={.5}>
                 <Box width="32px" height="32px">
                     <img src={`${process.env.PUBLIC_URL}/assets/toymaker_logo.svg`} alt="logo_img" width="100%" height="100%" />
@@ -139,17 +148,52 @@ const Sidebar: React.FC<SidebarProps> = ({ open, toggleDrawer }: SidebarProps) =
             </Box>
 
             {/* Character Selector */}
+            <Box py={1} sx={{ borderBottom: 1, borderColor: "divider" }} display="flex" alignItems="center" justifyContent="space-between">
+                <Box sx={{ pointerEvents: "none", opacity: "0" }}>
+                    <Button disabled>
+                        <SearchIcon />
+                    </Button>
+                </Box>
+                <Box flex={1} textAlign="center">
+                    <Typography variant="subtitle1">
+                        My Characters
+                    </Typography>
+                </Box>
+                <Box sx={{ float: "right", position: "float" }}>
+                    <Tooltip title="Search not yet available. Coming soon!" placement="top">
+                        <Box>
+                            <Button disabled>
+                                <SearchIcon />
+                            </Button>
+                        </Box>
+                    </Tooltip>
+                </Box>
+            </Box>
             <Box sx={{ flex: 1, overflow: "auto", p: 1, width: "250px" }}>
-                <List>
-                    {characters.map((ch) => (
-                        <ListItemButton key={ch.id} selected={ch.id === selectedId} onClick={() => setSelectedId(ch.id)} sx={{ borderRadius: 1, mb: 1 }}>
-                            <ListItemAvatar>
-                                <Avatar sx={{ bgcolor: "grey.100", color: "text.primary", fontWeight: 700 }}>{ch.name.charAt(0).toUpperCase() || "?"}</Avatar>
-                            </ListItemAvatar>
-                            <ListItemText primary={ch.name} secondary={ch.occupation || "No occupation"} />
-                        </ListItemButton>
-                    ))}
-                </List>
+                {!!characters.length &&
+                    <List>
+                        {characters.map((ch) => (
+                            <ListItemButton key={ch.id} selected={ch.id === selectedId} onClick={() => {
+                                setSelectedId(ch.id)
+                                if (currentTab === 2) setCurrentTab(0);
+                            }} sx={{ borderRadius: 1, mb: 1 }}>
+                                <ListItemAvatar>
+                                    <Avatar sx={{ bgcolor: "grey.100", color: "text.primary", fontWeight: 700 }}>{ch.name.charAt(0).toUpperCase() || "?"}</Avatar>
+                                </ListItemAvatar>
+                                <ListItemText primary={ch.name} secondary={ch.occupation || "No occupation"} />
+                            </ListItemButton>
+                        ))}
+                    </List>
+                }
+                {!characters.length &&
+                    <Box px={3}>
+                        <Typography my={2} variant="body2" color="text.secondary" textAlign="center" >
+                            No characters yet.
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary" textAlign="center">
+                            Click <b>"Add"</b> to create your first character, or <b>"Import"</b> to load a Toymaker file.
+                        </Typography>
+                    </Box>}
             </Box>
             <Box sx={{ position: "sticky", bottom: 0, p: 1, borderTop: 1, borderColor: "divider", bgcolor: "background.paper" }}>
                 <Stack direction="row" spacing={1}>
@@ -157,7 +201,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open, toggleDrawer }: SidebarProps) =
                     <Button fullWidth size="small" variant="outlined" onClick={triggerImport}>Import</Button>
                     <Button fullWidth size="small" variant="outlined" onClick={exportData}>Export</Button>
                 </Stack>
-                <input ref={fileInputRef} type="file" accept="application/json" style={{ display: "none" }} onChange={onFileChange} />
+                <input ref={fileInputRef} type="file" accept=".tymkr, application/json" style={{ display: "none" }} onChange={onFileChange} />
             </Box>
         </Drawer>
     );

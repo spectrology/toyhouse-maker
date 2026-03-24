@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import './App.css';
 import CharacterEditor from './pages/CharacterEditor';
-import { Box, createTheme, Paper, ThemeProvider } from '@mui/material';
+import { Box, createTheme, Paper, ThemeProvider, useMediaQuery } from '@mui/material';
 import PageMaker from './pages/PageMaker';
 import Sidebar from './layout/Sidebar';
 import { CharacterProvider } from './contexts/CharacterContext';
@@ -44,6 +44,7 @@ function App() {
   }, [])
 
   const [currentTheme, setCurrentTheme] = React.useState(lightTheme);
+  const bigScreen = useMediaQuery(currentTheme.breakpoints.up('sm'));
 
   return (
     <div className="App">
@@ -53,19 +54,20 @@ function App() {
         <SettingsProvider currentTheme={currentTheme} setCurrentTheme={setCurrentTheme}>
           <LayoutProvider>
             <CharacterProvider>
-              <Sidebar open={sidebarOpen} toggleDrawer={() => setSidebarOpen(!sidebarOpen)} />
-              <Paper><Box minHeight="100vh" width={sidebarOpen ? "calc(100% - 250px)" : "100%"} ml={sidebarOpen ? "250px" : 0}>
-                <Header currentTab={tab} setCurrentTab={setTab} />
-                <CustomTabPanel value={tab} index={0}>
-                  <CharacterEditor />
-                </CustomTabPanel>
-                <CustomTabPanel value={tab} index={1}>
-                  <PageMaker />
-                </CustomTabPanel>
-                <CustomTabPanel value={tab} index={2}>
-                  <Documentation />
-                </CustomTabPanel>
-              </Box>
+              <Sidebar currentTab={tab} setCurrentTab={setTab} open={sidebarOpen || bigScreen} toggleDrawer={() => setSidebarOpen(!sidebarOpen)} />
+              <Paper>
+                <Box minHeight="100vh" width={bigScreen ? "calc(100% - 250px)" : "100%"} ml={bigScreen ? "250px" : 0}>
+                  <Header sidebarOpen={sidebarOpen} setSidebarOpen={(status) => setSidebarOpen(status)} currentTab={tab} setCurrentTab={setTab} />
+                  <CustomTabPanel value={tab} index={0}>
+                    <CharacterEditor />
+                  </CustomTabPanel>
+                  <CustomTabPanel value={tab} index={1}>
+                    <PageMaker />
+                  </CustomTabPanel>
+                  <CustomTabPanel value={tab} index={2}>
+                    <Documentation />
+                  </CustomTabPanel>
+                </Box>
               </Paper>
             </CharacterProvider>
           </LayoutProvider>

@@ -5,14 +5,19 @@ import {
     Toolbar,
     Box,
     Button,
+    useMediaQuery,
+    useTheme,
 } from "@mui/material";
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import { useSettingsContext } from "../contexts/SettingsContext";
+import MenuIcon from '@mui/icons-material/Menu';
 
 interface HeaderProps {
     currentTab: number;
     setCurrentTab: (tab: number) => void;
+    setSidebarOpen: (setAs: boolean) => void;
+    sidebarOpen: boolean,
 }
 
 function a11yProps(index: number) {
@@ -22,11 +27,13 @@ function a11yProps(index: number) {
     };
 }
 
-const Header: React.FC<HeaderProps> = ({ currentTab, setCurrentTab }: HeaderProps) => {
+const Header: React.FC<HeaderProps> = ({ currentTab, setCurrentTab, setSidebarOpen, sidebarOpen }: HeaderProps) => {
 
     const handleChange = (event: React.SyntheticEvent, tabIndex: number) => {
         setCurrentTab(tabIndex);
     };
+    const theme = useTheme();
+    const bigScreen = useMediaQuery(theme.breakpoints.up('sm'));
 
     const { mode, setMode } = useSettingsContext();
 
@@ -44,6 +51,13 @@ const Header: React.FC<HeaderProps> = ({ currentTab, setCurrentTab }: HeaderProp
             display: "flex",
             justifyContent: "space-between",
         }}>
+            {(!bigScreen) &&
+                <Box>
+                    <Button onClick={() => setSidebarOpen(true)}>
+                        <MenuIcon />
+                    </Button>
+                </Box>
+            }
             <Box px={2}>
                 <Tabs value={currentTab} onChange={handleChange} aria-label="basic tabs example">
                     <Tab label="Character Editor" {...a11yProps(0)} />
