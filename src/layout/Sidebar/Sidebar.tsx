@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import {
     Box,
     List,
@@ -19,12 +19,13 @@ import {
     useMediaQuery,
     Tooltip,
 } from "@mui/material";
-import { useCharacterContext } from "../contexts/CharacterContext";
-import { Character } from "../types/character";
-import { useLayoutContext } from "../contexts/LayoutContext";
-import { LAYOUTS } from "../layouts/layouts";
+import { useCharacterContext } from "../../contexts/CharacterContext";
+import { Character } from "../../types/character";
+import { useLayoutContext } from "../../contexts/LayoutContext";
+import { LAYOUTS } from "../../layouts/layouts";
 import SearchIcon from '@mui/icons-material/Search';
-import LogoDisplay from "../components/TitleDisplay";
+import LogoDisplay from "../../components/TitleDisplay";
+import { SearchBar } from "./SearchBar";
 
 function makeId() {
     return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 9)}`;
@@ -42,6 +43,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open, toggleDrawer, currentTab, setCu
     const { layout, setLayout } = useLayoutContext();
     const theme = useTheme();
     const bigScreen = useMediaQuery(theme.breakpoints.up('sm'));
+    const [characterFilter, setCharacterFilter] = useState<string>("");
 
     const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -141,16 +143,16 @@ const Sidebar: React.FC<SidebarProps> = ({ open, toggleDrawer, currentTab, setCu
                             ))}
                             <MenuItem key="custom" value={"custom"}>
                                 {bigScreen &&
-                                <Box display="flex" alignItems="center" flexDirection="column" gap={1}>
-                                    <Box width={200} height={100} bgcolor="grey.300" display="flex" alignItems="center" justifyContent="center">
-                                        <Typography variant="h3" color="text.secondary">
-                                            {`</>`}
-                                        </Typography>
+                                    <Box display="flex" alignItems="center" flexDirection="column" gap={1}>
+                                        <Box width={200} height={100} bgcolor="grey.300" display="flex" alignItems="center" justifyContent="center">
+                                            <Typography variant="h3" color="text.secondary">
+                                                {`</>`}
+                                            </Typography>
+                                        </Box>
+                                        <Box display="flex" alignItems="center" justifyContent="center">
+                                            <Typography variant="h6">Custom</Typography>
+                                        </Box>
                                     </Box>
-                                    <Box display="flex" alignItems="center" justifyContent="center">
-                                        <Typography variant="h6">Custom</Typography>
-                                    </Box>
-                                </Box>
                                 }
                                 {!bigScreen && "Custom"}
                             </MenuItem>
@@ -161,30 +163,12 @@ const Sidebar: React.FC<SidebarProps> = ({ open, toggleDrawer, currentTab, setCu
 
             {/* Character Selector */}
             <Box py={1} sx={{ borderBottom: 1, borderColor: "divider" }} display="flex" alignItems="center" justifyContent="space-between">
-                <Box sx={{ pointerEvents: "none", opacity: "0" }}>
-                    <Button disabled>
-                        <SearchIcon />
-                    </Button>
-                </Box>
-                <Box flex={1} textAlign="center">
-                    <Typography variant="subtitle1">
-                        My Characters
-                    </Typography>
-                </Box>
-                <Box sx={{ float: "right", position: "float" }}>
-                    <Tooltip title="Search not yet available. Coming soon!" placement="top">
-                        <Box>
-                            <Button disabled>
-                                <SearchIcon />
-                            </Button>
-                        </Box>
-                    </Tooltip>
-                </Box>
+                <SearchBar title="Characters" onSearch={setCharacterFilter} />
             </Box>
             <Box sx={{ flex: 1, overflow: "auto", p: 1, width: "250px" }}>
                 {!!characters.length &&
                     <List>
-                        {characters.map((ch) => (
+                        {characters.filter((ch) => ch.name.toLowerCase().includes(characterFilter.toLowerCase())).map((ch) => (
                             <ListItemButton key={ch.id} selected={ch.id === selectedId} onClick={() => {
                                 setSelectedId(ch.id)
                                 if (currentTab === 2) setCurrentTab(0);
@@ -206,6 +190,13 @@ const Sidebar: React.FC<SidebarProps> = ({ open, toggleDrawer, currentTab, setCu
                             Click <b>"Add"</b> to create your first character, or <b>"Import"</b> to load a Toymaker file.
                         </Typography>
                     </Box>}
+                    {!!characterFilter.length && !characters.some((ch) => ch.name.toLowerCase().includes(characterFilter.toLowerCase())) && (
+                        <Box px={3}>
+                            <Typography my={2} variant="body2" color="text.secondary" textAlign="center" >
+                                No characters match your search.
+                            </Typography>
+                        </Box>
+                    )}
             </Box>
             <Box sx={{ position: "sticky", bottom: 0, p: 1, borderTop: 1, borderColor: "divider", bgcolor: "background.paper" }}>
                 <Stack direction="row" spacing={1}>

@@ -3,7 +3,7 @@ import './App.css';
 import CharacterEditor from './pages/CharacterEditor/CharacterEditor';
 import { Box, Breakpoint, createTheme, Paper, ThemeProvider, useMediaQuery } from '@mui/material';
 import PageMaker from './pages/PageMaker';
-import Sidebar from './layout/Sidebar';
+import Sidebar from './layout/Sidebar/Sidebar';
 import { CharacterProvider } from './contexts/CharacterContext';
 import { LayoutProvider } from './contexts/LayoutContext';
 import Header from './layout/Header';
