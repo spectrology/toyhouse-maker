@@ -24,6 +24,7 @@ import { Character } from "../types/character";
 import { useLayoutContext } from "../contexts/LayoutContext";
 import { LAYOUTS } from "../layouts/layouts";
 import SearchIcon from '@mui/icons-material/Search';
+import LogoDisplay from "../components/TitleDisplay";
 
 function makeId() {
     return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 9)}`;
@@ -98,14 +99,19 @@ const Sidebar: React.FC<SidebarProps> = ({ open, toggleDrawer, currentTab, setCu
 
     return (
         <Drawer variant={bigScreen ? "persistent" : "temporary"} open={open} onClose={toggleDrawer}>
-            <Box borderBottom={1} borderColor="divider" p={1} display="flex" justifyContent="center" alignItems="center" gap={.5}>
-                <Box width="32px" height="32px">
-                    <img src={`${process.env.PUBLIC_URL}/assets/toymaker_logo.svg`} alt="logo_img" width="100%" height="100%" />
-                </Box>
-                <Typography variant="h6">
-                    Toymaker <Chip color="primary" size="small" label="BETA" />
-                </Typography>
+            <Box borderBottom={1} borderColor="divider">
+                <LogoDisplay />
             </Box>
+            {/* Small Screen Tab Selector */}
+            {!bigScreen &&
+                <FormControl fullWidth>
+                    <Select value={currentTab} onChange={(e) => setCurrentTab(e.target.value as number)} fullWidth size="small" sx={{ borderRadius: 0 }}>
+                        <MenuItem value={0}>Character Editor</MenuItem>
+                        <MenuItem value={1}>Page Maker</MenuItem>
+                        <MenuItem value={2}>Documentation</MenuItem>
+                    </Select>
+                </FormControl>
+            }
             {/* Layout Selector: */}
             <Box borderBottom={1} borderColor="divider" p={1}>
                 <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
@@ -120,17 +126,21 @@ const Sidebar: React.FC<SidebarProps> = ({ open, toggleDrawer, currentTab, setCu
                         >
                             {LAYOUTS.map((t) => (
                                 <MenuItem key={t.id} value={t.id}>
-                                    <Box display="flex" alignItems="center" flexDirection="column" gap={1}>
-                                        {t.previewImage && (
-                                            <img src={t.previewImage} alt={t.name} style={{ width: 200, height: 100, objectFit: "cover" }} />
-                                        )}
-                                        <Box display="flex" alignItems="center" justifyContent="center">
-                                            <Typography variant="h6">{t.name}</Typography>
+                                    {bigScreen &&
+                                        <Box display="flex" alignItems="center" flexDirection="column" gap={1}>
+                                            {t.previewImage && (
+                                                <img src={t.previewImage} alt={t.name} style={{ width: 200, height: 100, objectFit: "cover" }} />
+                                            )}
+                                            <Box display="flex" alignItems="center" justifyContent="center">
+                                                <Typography variant="h6">{t.name}</Typography>
+                                            </Box>
                                         </Box>
-                                    </Box>
+                                    }
+                                    {!bigScreen && t.name}
                                 </MenuItem>
                             ))}
                             <MenuItem key="custom" value={"custom"}>
+                                {bigScreen &&
                                 <Box display="flex" alignItems="center" flexDirection="column" gap={1}>
                                     <Box width={200} height={100} bgcolor="grey.300" display="flex" alignItems="center" justifyContent="center">
                                         <Typography variant="h3" color="text.secondary">
@@ -141,6 +151,8 @@ const Sidebar: React.FC<SidebarProps> = ({ open, toggleDrawer, currentTab, setCu
                                         <Typography variant="h6">Custom</Typography>
                                     </Box>
                                 </Box>
+                                }
+                                {!bigScreen && "Custom"}
                             </MenuItem>
                         </Select>
                     </FormControl>

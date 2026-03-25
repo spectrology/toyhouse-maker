@@ -7,8 +7,7 @@ import { FieldConfig } from "../types/layout";
 
 const fields: FieldConfig[] = [
     { name: "name", label: "Name", type: "text", size: 12, isCustom: false },
-    { name: "age", label: "Age", type: "number", size: 3.5, isCustom: false },
-    { name: "ageunit", label: "Unit", type: "select", options: [{ value: "sweeps", label: "Sweeps" }, { value: "years", label: "Years" }], size: 2.5, isCustom: false },
+    { name: "age", label: "Age", type: "text", size: 6, isCustom: false },
     { name: "height", label: "Height", type: "text", size: 6, isCustom: false },
     { name: "pronouns", label: "Pronouns", type: "text", size: 6, placeholder: "e.g. she/her", isCustom: false },
     { name: "occupation", label: "Occupation", type: "text", size: 6, isCustom: false },
@@ -80,7 +79,7 @@ const CharacterEditor: React.FC = () => {
                                 const val = (characterData as any)[f.name];
                                 const valueProp = f.type === "color" ? (val || "#f7f7f7") : (val ?? "");
                                 return (
-                                    <Grid size={f.size ?? 12} key={f.name}>
+                                    <Grid size={typeof f.size === "number" ? { xs: 12, sm: f.size ?? 12 } : f.size} key={f.name}>
                                         {f.type === "select" ? (
                                             <FormControl fullWidth margin="normal">
                                                 <InputLabel>{f.label}</InputLabel>
@@ -99,7 +98,7 @@ const CharacterEditor: React.FC = () => {
                                             </FormControl>
                                         ) : (
                                             <Grid container>
-                                                <Grid size={(f.isCustom || f.fromLayout) ? 10 : 12}>
+                                                <Grid size={(f.isCustom || f.fromLayout) ? 11 : 12}>
                                                     <TextField
                                                         fullWidth
                                                         label={f.label}
@@ -114,7 +113,7 @@ const CharacterEditor: React.FC = () => {
                                                         InputLabelProps={f.type === "color" ? { shrink: true } : undefined}
                                                     />
                                                 </Grid>
-                                                <Grid size={(f.isCustom || f.fromLayout) ? 2 : 0} sx={{ display: "flex", alignItems: "center" }}>
+                                                <Grid size={(f.isCustom || f.fromLayout) ? 1 : 0} sx={{ display: "flex", alignItems: "center" }}>
                                                     {f.isCustom && (
                                                         <Button
                                                             variant="outlined"

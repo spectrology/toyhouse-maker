@@ -7,11 +7,13 @@ import {
     Button,
     useMediaQuery,
     useTheme,
+    Typography,
 } from "@mui/material";
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import { useSettingsContext } from "../contexts/SettingsContext";
 import MenuIcon from '@mui/icons-material/Menu';
+import LogoDisplay from "../components/TitleDisplay";
 
 interface HeaderProps {
     currentTab: number;
@@ -42,11 +44,11 @@ const Header: React.FC<HeaderProps> = ({ currentTab, setCurrentTab, setSidebarOp
             borderBottom: 1,
             borderColor: 'divider',
             padding: "none !important",
-            minHeight: "0 !important",
             position: "sticky",
             backgroundColor: "background.paper",
             zIndex: 1200,
             sticky: "top",
+            minHeight: "64px !important",
             top: 0,
             display: "flex",
             justifyContent: "space-between",
@@ -58,13 +60,17 @@ const Header: React.FC<HeaderProps> = ({ currentTab, setCurrentTab, setSidebarOp
                     </Button>
                 </Box>
             }
-            <Box px={2}>
-                <Tabs value={currentTab} onChange={handleChange} aria-label="basic tabs example">
-                    <Tab label="Character Editor" {...a11yProps(0)} />
-                    <Tab label="Page Maker" {...a11yProps(1)} />
-                    <Tab label="Documentation" {...a11yProps(2)} />
-                </Tabs>
-            </Box>
+            {bigScreen &&
+                <Box maxWidth="calc(100% - 64px)">
+                    <Tabs value={currentTab} onChange={handleChange} aria-label="basic tabs example" variant="scrollable">
+                        <Tab label="Character Editor" {...a11yProps(0)} />
+                        <Tab label="Page Maker" {...a11yProps(1)} />
+                        <Tab label="Documentation" {...a11yProps(2)} />
+                    </Tabs>
+                </Box>}
+            {!bigScreen &&
+                <LogoDisplay />
+            }
             <Box>
                 <Button onClick={() => setMode(mode === "light" ? "dark" : "light")}>
                     {mode === "light" ? <DarkModeIcon /> : <LightModeIcon />}
