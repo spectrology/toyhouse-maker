@@ -86,7 +86,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open, toggleDrawer, currentTab, setCu
 
     const exportData = () => {
         const data = JSON.stringify(characters, null, 2);
-        const blob = new Blob([data], { type: "application/json" });
+        const blob = new Blob([data], { type: ".tymkr" });
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
