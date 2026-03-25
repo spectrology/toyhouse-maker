@@ -8,17 +8,22 @@ type SettingsContextValue = {
     mode: "light" | "dark";
     toyhouseCss: string;
     setMode: (mode: "light" | "dark") => void;
+    fullscreenPreview: boolean,
+    setFullscreenPreview: (setAs: boolean) => void
 };
 
 const SettingsContext = createContext<SettingsContextValue>({
     mode: "light",
     toyhouseCss: "",
     setMode: () => { },
+    setFullscreenPreview: () => { },
+    fullscreenPreview: false,
 });
 
 export const SettingsProvider: React.FC<{ children: ReactNode, currentTheme: any, setCurrentTheme: (theme: any) => void }> = ({ children, setCurrentTheme }) => {
     const [mode, setMode] = useState<"light" | "dark">("light");
     const [toyhouseCss, setToyhouseCss] = useState(toyhouse_light_css);
+    const [fullscreenPreview, setFullscreenPreview] = useState(false);
 
     useEffect(() => {
         if (mode === "dark") {
@@ -33,7 +38,7 @@ export const SettingsProvider: React.FC<{ children: ReactNode, currentTheme: any
 
 
     return (
-        <SettingsContext.Provider value={{ mode, setMode, toyhouseCss }}>
+        <SettingsContext.Provider value={{ mode, setMode, toyhouseCss, fullscreenPreview, setFullscreenPreview }}>
             {children}
         </SettingsContext.Provider>
     );

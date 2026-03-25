@@ -9,6 +9,7 @@ import { Character } from "../types/character";
 import { useCharacterContext } from "../contexts/CharacterContext";
 import { useLayoutContext } from "../contexts/LayoutContext";
 import { useSettingsContext } from "../contexts/SettingsContext";
+import Popout from "react-popout";
 
 function compileTemplate(tpl: string, data: Character) {
     // Replace {{key}} with value (naive). Supports nested keys like a.b
@@ -25,6 +26,7 @@ export const PageMaker: React.FC = () => {
     const { toyhouseCss } = useSettingsContext();
     const { selectedId, characters } = useCharacterContext();
     const [characterData, setCharacterData] = useState<Character>(characters[0] || new Character("fake"));
+    const [openPopout, setOpenPopout] = useState(true);
 
     useEffect(() => {
         if (selectedId && selectedId !== characterData?.id) {
@@ -53,9 +55,9 @@ export const PageMaker: React.FC = () => {
                     <Box display="flex" gap={1}>
                         <Button variant="contained" onClick={(e) => {
                             e.preventDefault();
-                            window.open("data:text/html;charset=utf-8," + encodeURIComponent(htmlPreview), "_blank"); return false;
+                            setFullscreenPreview(true);
                         }}>
-                            Pop-Out
+                            Fulllscreen
                         </Button>
                         <Button variant="outlined" onClick={() => {
                             navigator.clipboard.writeText(compileTemplate(layout.template, characterData)).then(() => {
