@@ -1,6 +1,7 @@
 import React from 'react';
-import { Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material"
+import { Box, Button, FormControl, Grid, IconButton, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material"
 import { FieldConfig } from "../../../types/layout";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 interface FieldRendererProps {
     sectionTitle?: string;
@@ -45,8 +46,8 @@ const FieldRenderer: React.FC<FieldRendererProps> = ({ sectionTitle, fields, cha
                                 </Select>
                             </FormControl>
                         ) : (
-                            <Grid container>
-                                <Grid size={f.isCustom ? 10 : 12}>
+                            <Box display="flex" alignItems="center">
+                                <Box flexGrow={1}>
                                     <TextField
                                         fullWidth
                                         label={f.label}
@@ -60,24 +61,22 @@ const FieldRenderer: React.FC<FieldRendererProps> = ({ sectionTitle, fields, cha
                                         minRows={f.rows}
                                         InputLabelProps={f.type === "color" ? { shrink: true } : undefined}
                                     />
-                                </Grid>
+                                </Box>
                                 {/* Remove Field */}
                                 {f.isCustom &&
-                                    <Grid size={(f.isCustom) ? 2 : 0} sx={{ display: "flex", alignItems: "center" }}>
-                                        <Button
-                                            variant="outlined"
+                                    <Box>
+                                        <IconButton
                                             color="error"
                                             onClick={() => {
                                                 setAdditionalFields((prev) => prev.filter((field) => field.name !== f.name));
                                             }}
                                             sx={{ ml: 1 }}
                                         >
-                                            Remove
-                                        </Button>
-                                    </Grid>
+                                            <DeleteIcon />
+                                        </IconButton>
+                                    </Box>
                                 }
-
-                            </Grid>
+                            </Box>
                         )}
                     </Grid>
                 );
