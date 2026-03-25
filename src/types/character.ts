@@ -16,7 +16,6 @@ export class Character implements Character {
     id: string;
     name: string;
     age?: number;
-    ageunit?: "sweeps" | "years" | string;
     height?: string;
     pronouns?: string;
     occupation?: string;

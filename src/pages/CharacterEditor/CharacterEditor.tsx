@@ -24,6 +24,35 @@ const CharacterEditor: React.FC = () => {
     const [characterData, setCharacterData] = useState<Character | null>(characters[0]);
     const [additionalFields, setAdditionalFields] = useState<FieldConfig[]>([]);
     const [nextAdditionalFieldName, setNextAdditionalFieldName] = useState<string>("");
+    const [fieldsFromLayout, setFieldsFromLayout] = useState<FieldConfig[]>([]);
+
+    const createFieldsFromTemplate = (template: string): FieldConfig[] => {
+        const regex = /{{\s*([^}]+)\s*}}/g;
+        const foundFields = new Set<string>();
+        let match;
+
+        while ((match = regex.exec(template)) !== null) {
+            if (fields.map((f) => f.name).includes(match[1])) continue; // Skip if it's already a known character field
+            foundFields.add(match[1]);
+        }
+
+        return Array.from(foundFields).map((name) => ({
+            name: name as keyof Character & string,
+            label: name.charAt(0).toUpperCase() + name.slice(1),
+            type: "text",
+            size: 12,
+            fromLayout: true,
+        }));
+    };
+
+    useEffect(() => {
+        if (layout && !layout.additionalFields) {
+            const templateFields = createFieldsFromTemplate(layout.template);
+            setFieldsFromLayout(templateFields);
+        } else {
+            setFieldsFromLayout(layout?.additionalFields || []);
+        }
+    }, [layout])
 
     useEffect(() => {
         if (selectedId) {
@@ -74,7 +103,9 @@ const CharacterEditor: React.FC = () => {
                         <Grid container columnSpacing={1} mb={1}>
                             <FieldRenderer fields={fields} characterData={characterData} handleChange={handleChange} setAdditionalFields={setAdditionalFields} />
                             <FieldRenderer fields={additionalFields} characterData={characterData} handleChange={handleChange} setAdditionalFields={setAdditionalFields} />
-                            <FieldRenderer sectionTitle="From Layout" fields={layout.additionalFields || []} characterData={characterData} handleChange={handleChange} setAdditionalFields={setAdditionalFields} />
+                            {fieldsFromLayout.length > 0 &&
+                                <FieldRenderer sectionTitle="From Layout" fields={fieldsFromLayout} characterData={characterData} handleChange={handleChange} setAdditionalFields={setAdditionalFields} />
+                            }
                         </Grid>
                         <Divider />
                         <Box display="flex" alignItems="center" mt={2}>

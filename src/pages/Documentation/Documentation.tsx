@@ -26,16 +26,11 @@ export const Documentation: React.FC = () => {
             <h2>Custom Layouts</h2>
             <p>Toymaker uses Moustache Syntax to render templates. You can create your own layouts by writing html, and putting <CodeBlock inline>&#123;&#123;field_name&#125;&#125;</CodeBlock> where you want to insert character data.</p>
             <p>For example: <CodeBlock inline>{`{{hobbies}}`}</CodeBlock></p>
-            <p> You can then add the "hobbies" field to your character's data using the "Add Additional Field" tool in the Character Editor.</p>
-            <Alert severity="info" sx={{ border: 1, borderColor: "info" }}>
-                In the future, Toymaker will automatically parse out fields from your template and add them to the character editor, but for now you must add them manually.
-                However, you can still use the same template and character data, since the attribute name will be the same, so feel free to generate character data! It will still be usable later.
-            </Alert>
+            <p>Toymaker will then parse out those fields and automatically add them to the Character Editor as text fields.</p>
             <p>To import a custom layout, go to the Layout Selector in the sidebar and choose "Custom Layout". Then select your HTML file.</p>
             <h3>Advanced Custom Layout</h3>
-            <p>If you're familiar with JSON, you can create more complex layouts with additional features, like a preview image and preformatted fields of different types.</p>
+            <p>If you're familiar with JSON, you can create more complex layouts with additional features, like a preview image, custom title, and preformatted fields of different types.</p>
             <p>Custom layouts must have at least a name and a template:</p>
-
             <CodeBlock>
                 {`{
                     "name": "My Custom Theme",
