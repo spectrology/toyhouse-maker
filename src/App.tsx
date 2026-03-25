@@ -62,7 +62,7 @@ function App() {
           <LayoutProvider>
             <CharacterProvider>
               <Sidebar currentTab={tab} setCurrentTab={setTab} open={sidebarOpen || bigScreen} toggleDrawer={() => setSidebarOpen(!sidebarOpen)} />
-              <Paper>
+              <Paper sx={{ borderRadius: 0 }}>
                 <Box minHeight="100vh" width={bigScreen ? "calc(100% - 250px)" : "100%"} ml={bigScreen ? "250px" : 0}>
                   <Header sidebarOpen={sidebarOpen} setSidebarOpen={(status) => setSidebarOpen(status)} currentTab={tab} setCurrentTab={setTab} />
                   <PageWrapper pageWidth={pageSizes[tab] as Breakpoint}>
