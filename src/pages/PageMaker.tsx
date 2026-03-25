@@ -45,18 +45,18 @@ export const PageMaker: React.FC = () => {
     }, [theme, characterData]);
 
     return (
-        <Box display="flex" flexDirection="column" gap={2} overflow="hidden" p={3}>
+        <Box display="flex" flexDirection="column" gap={2} overflow="hidden">
             {/* HTML Preview: */}
             <Box height="calc(100vh - 280px)" sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
                 <Box display="flex" alignItems="center" justifyContent="space-between" mb={2}>
                     <Typography variant="h5">HTML Preview</Typography>
                     <Box display="flex" gap={1}>
-                        <Button variant="contained" onClick={(e) => {
+                        {/* <Button variant="contained" onClick={(e) => {
                             e.preventDefault();
                             window.open("data:text/html;charset=utf-8," + encodeURIComponent(htmlPreview), "_blank"); return false;
                         }}>
                             Pop-Out
-                        </Button>
+                        </Button> */}
                         <Button variant="outlined" onClick={() => {
                             navigator.clipboard.writeText(compileTemplate(layout.template, characterData)).then(() => {
                                 alert("HTML copied to clipboard!");

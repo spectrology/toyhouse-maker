@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import './App.css';
 import CharacterEditor from './pages/CharacterEditor/CharacterEditor';
-import { Box, createTheme, Paper, ThemeProvider, useMediaQuery } from '@mui/material';
+import { Box, Breakpoint, createTheme, Paper, ThemeProvider, useMediaQuery } from '@mui/material';
 import PageMaker from './pages/PageMaker';
 import Sidebar from './layout/Sidebar';
 import { CharacterProvider } from './contexts/CharacterContext';
@@ -11,6 +11,7 @@ import Documentation from './pages/Documentation/Documentation';
 import { lightTheme } from './contexts/themes/lighttheme';
 import { darkTheme } from './contexts/themes/darktheme';
 import { SettingsProvider } from './contexts/SettingsContext';
+import PageWrapper from './layout/PageWrapper';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -46,6 +47,12 @@ function App() {
   const [currentTheme, setCurrentTheme] = React.useState(lightTheme);
   const bigScreen = useMediaQuery(currentTheme.breakpoints.up('sm'));
 
+  const pageSizes = [
+    "md",
+    "lg",
+    "md"
+  ]
+
   return (
     <div className="App">
       <meta name="title" content="Spec's Toyhouse Maker" />
@@ -58,15 +65,17 @@ function App() {
               <Paper>
                 <Box minHeight="100vh" width={bigScreen ? "calc(100% - 250px)" : "100%"} ml={bigScreen ? "250px" : 0}>
                   <Header sidebarOpen={sidebarOpen} setSidebarOpen={(status) => setSidebarOpen(status)} currentTab={tab} setCurrentTab={setTab} />
-                  <CustomTabPanel value={tab} index={0}>
-                    <CharacterEditor />
-                  </CustomTabPanel>
-                  <CustomTabPanel value={tab} index={1}>
-                    <PageMaker />
-                  </CustomTabPanel>
-                  <CustomTabPanel value={tab} index={2}>
-                    <Documentation />
-                  </CustomTabPanel>
+                  <PageWrapper pageWidth={pageSizes[tab] as Breakpoint}>
+                    <CustomTabPanel value={tab} index={0}>
+                      <CharacterEditor />
+                    </CustomTabPanel>
+                    <CustomTabPanel value={tab} index={1}>
+                      <PageMaker />
+                    </CustomTabPanel>
+                    <CustomTabPanel value={tab} index={2}>
+                      <Documentation />
+                    </CustomTabPanel>
+                  </PageWrapper>
                 </Box>
               </Paper>
             </CharacterProvider>

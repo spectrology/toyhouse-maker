@@ -62,10 +62,10 @@ const CharacterEditor: React.FC = () => {
     };
 
     return (
-        <Container maxWidth="md">
 
+        <Box>
             {characterData &&
-                <Box sx={{ display: "flex" }} p={3}>
+                <Box sx={{ display: "flex" }}>
                     <Box component="form" onSubmit={(e) => { e.preventDefault(); handleSave(); }}>
                         <Box display="flex" alignItems="right" justifyContent="right" gap={1}>
                             <Button type="submit" variant="contained">Save</Button>
@@ -107,7 +107,7 @@ const CharacterEditor: React.FC = () => {
                     </Typography>
                 </Box>
             )}
-        </Container>
+        </Box>
     );
 };
 
