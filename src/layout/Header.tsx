@@ -48,7 +48,7 @@ const Header: React.FC<HeaderProps> = ({ currentTab, setCurrentTab, setSidebarOp
             backgroundColor: "background.paper",
             zIndex: 1200,
             sticky: "top",
-            minHeight: "64px !important",
+            minHeight: "48px !important",
             top: 0,
             display: "flex",
             justifyContent: "space-between",

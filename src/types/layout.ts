@@ -13,7 +13,7 @@ export type FieldConfig = {
     name: string;
     label: string;
     type?: "text" | "number" | "color" | "multiline" | "select";
-    size?: ResponsiveStyleValue<GridSize>;
+    size?: ResponsiveStyleValue<GridSize> | number;
     rows?: number;
     placeholder?: string;
     options?: { value: string; label: string }[];

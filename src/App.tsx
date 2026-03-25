@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import './App.css';
-import CharacterEditor from './pages/CharacterEditor';
+import CharacterEditor from './pages/CharacterEditor/CharacterEditor';
 import { Box, createTheme, Paper, ThemeProvider, useMediaQuery } from '@mui/material';
 import PageMaker from './pages/PageMaker';
 import Sidebar from './layout/Sidebar';
