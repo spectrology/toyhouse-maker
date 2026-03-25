@@ -26,7 +26,7 @@ export const PageMaker: React.FC = () => {
     const { toyhouseCss } = useSettingsContext();
     const { selectedId, characters } = useCharacterContext();
     const [characterData, setCharacterData] = useState<Character>(characters[0] || new Character("fake"));
-    const [openPopout, setOpenPopout] = useState(true);
+    const [popoutOpen, setPopoutOpen] = useState(false);
 
     useEffect(() => {
         if (selectedId && selectedId !== characterData?.id) {
@@ -47,38 +47,48 @@ export const PageMaker: React.FC = () => {
     }, [theme, characterData]);
 
     return (
-        <Box display="flex" flexDirection="column" gap={2} overflow="hidden" p={3}>
-            {/* HTML Preview: */}
-            <Box height="calc(100vh - 280px)" sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
-                <Box display="flex" alignItems="center" justifyContent="space-between" mb={2}>
-                    <Typography variant="h5">HTML Preview</Typography>
-                    <Box display="flex" gap={1}>
-                        <Button variant="contained" onClick={(e) => {
-                            e.preventDefault();
-                            setFullscreenPreview(true);
-                        }}>
-                            Fulllscreen
-                        </Button>
-                        <Button variant="outlined" onClick={() => {
-                            navigator.clipboard.writeText(compileTemplate(layout.template, characterData)).then(() => {
-                                alert("HTML copied to clipboard!");
-                            })
-                        }}>
-                            Copy HTML to Clipboard
-                        </Button>
+        <>
+            <Box display="flex" flexDirection="column" gap={2} overflow="hidden" p={3}>
+                {/* HTML Preview: */}
+                <Box height="calc(100vh - 280px)" sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
+                    <Box display="flex" alignItems="center" justifyContent="space-between" mb={2}>
+                        <Typography variant="h5">HTML Preview</Typography>
+                        <Box display="flex" gap={1}>
+                            <Button variant="contained" onClick={(e) => {
+                                e.preventDefault();
+                                window.open("data:text/html;charset=utf-8," + encodeURIComponent(htmlPreview), "_blank"); return false;
+                            }}>
+                                Pop-Out
+                            </Button>
+                            <Button variant="outlined" onClick={() => {
+                                navigator.clipboard.writeText(compileTemplate(layout.template, characterData)).then(() => {
+                                    alert("HTML copied to clipboard!");
+                                })
+                            }}>
+                                Copy HTML to Clipboard
+                            </Button>
+                        </Box>
+                    </Box>
+                    <Box
+                        border={1}
+                        borderColor="divider"
+                    >
+                        <div
+                            // intentionally using innerHTML to render templates; keep content from local JSON only
+                            dangerouslySetInnerHTML={{ __html: htmlPreview }}
+                        />
                     </Box>
                 </Box>
-                <Box
-                    border={1}
-                    borderColor="divider"
-                >
+            </Box>
+            {popoutOpen &&
+                <Popout url="http://toymaker-preview" onError={() => { console.log("ok") }} options={{}} containerId='popout'>
                     <div
                         // intentionally using innerHTML to render templates; keep content from local JSON only
-                        dangerouslySetInnerHTML={{ __html: htmlPreview }}
-                    />
-                </Box>
-            </Box>
-        </Box >
+                        
+                    >poopoo</div>
+                </Popout>
+            }
+        </>
     );
 }
 
